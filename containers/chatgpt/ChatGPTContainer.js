@@ -41,7 +41,7 @@ class ChatGPTContainer {
       /* Faded Night Theme - Simple black background */
       body, html {
         background-color: #000000 !important;
-        color: #ffffff !important;
+        color: #d0d0d0 !important; /* stronger dim for readability */
       }
       
       /* Main container */
@@ -58,6 +58,49 @@ class ChatGPTContainer {
       div.shadow-short {
         background-color: #1a1a1a !important;
       }
+
+      /* Softer text tones for readability on pure black */
+      .text-token-text-primary,
+      [class*="text-token-text-primary"] {
+        color: #d0d0d0 !important; /* dimmed from pure white */
+      }
+
+      .text-token-text-secondary,
+      [class*="text-token-text-secondary"] {
+        color: #b5b5b5 !important;
+      }
+
+      .text-token-text-tertiary,
+      [class*="text-token-text-tertiary"] {
+        color: #8e8e8e !important;
+      }
+
+      /* Ensure chat message text uses the dimmed tone */
+      [data-message-author-role],
+      [data-message-author-role] p,
+      [data-message-author-role] span,
+      [data-message-author-role] div {
+        color: #d0d0d0 !important;
+      }
+
+      /* Markdown content inside messages */
+      .markdown,
+      .markdown p,
+      .markdown li,
+      .markdown span,
+      .markdown strong,
+      .markdown em {
+        color: #d0d0d0 !important;
+      }
+
+      /* Headings slightly brighter for hierarchy */
+      .markdown h1, .markdown h2, .markdown h3,
+      .markdown h4, .markdown h5, .markdown h6 {
+        color: #e4e4e4 !important;
+      }
+
+      /* Placeholder text in editor */
+      .ProseMirror .placeholder { color: #8a8a8a !important; }
 
       /* Page header (top bar) */
       #page-header {
