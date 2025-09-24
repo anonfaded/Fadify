@@ -18,5 +18,8 @@
       "js": ["containers/chatgpt/ChatGPTContainer.js", "containers/chatgpt/chatgpt.js"],
       "css": ["containers/chatgpt/chatgpt.css"]
     }
+  ],
+  "web_accessible_resources": [
+    "assets/space-background-webm.webm"
   ]
 }

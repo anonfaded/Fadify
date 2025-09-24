@@ -9,17 +9,13 @@ class ChatGPTContainer {
     this.removeCustomStyles();
     
     switch (theme) {
-      case "dark":
-        document.body.style.background = "#1a1a1a";
-        document.body.style.color = "#f0f0f0";
-        break;
-      case "aqua":
-        document.body.style.background = "#e0ffff";
-        document.body.style.color = "#000";
-        break;
       case "faded-night":
         // Apply pitch black theme with precise targeting
         this.applyFadedNightStyles();
+        break;
+      case "space":
+        // Apply space tiled video background with same text tones
+        this.applySpaceTheme();
         break;
       default:
         document.body.style.background = "";
@@ -102,9 +98,9 @@ class ChatGPTContainer {
       /* Placeholder text in editor */
       .ProseMirror .placeholder { color: #8a8a8a !important; }
 
-      /* Page header (top bar) */
+      /* Page header (top bar) - make transparent */
       #page-header {
-        background-color: #000000 !important;
+        background-color: transparent !important;
         color: #ffffff !important;
       }
 
@@ -163,10 +159,126 @@ class ChatGPTContainer {
   }
 
   removeCustomStyles() {
-    const styleElement = document.getElementById('fadify-faded-night-styles');
-    if (styleElement) {
-      styleElement.remove();
+    ['fadify-faded-night-styles', 'fadify-space-styles'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+
+    const spaceBg = document.getElementById('fadify-space-bg');
+    if (spaceBg) spaceBg.remove();
+
+    if (this._onSpaceResize) {
+      window.removeEventListener('resize', this._onSpaceResize);
+      this._onSpaceResize = null;
     }
+  }
+
+  applySpaceTheme() {
+    // 1) Create styles (transparent app surfaces, same dimmed text)
+    let styleEl = document.getElementById('fadify-space-styles');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'fadify-space-styles';
+      document.head.appendChild(styleEl);
+    }
+
+    styleEl.textContent = `
+      /* Space Theme - tiled video background on body */
+      body, html {
+        background: transparent !important;
+        color: #d0d0d0 !important;
+      }
+
+      /* Let main containers be transparent so the video shows */
+      #__next, #thread, #page-header {
+        background-color: transparent !important;
+      }
+
+      /* Make common scroll/content wrappers transparent so stars show through */
+      div[class*="overflow-y-auto"],
+      div[class*="thread-bottom-container"],
+      div[class*="thread"],
+      div[class*="content-fade"],
+      .text-base.mx-auto[class*="thread-content-margin"],
+      .text-token-text-secondary.relative.mt-auto,
+      #stage-slideover-sidebar,
+      #stage-sidebar-tiny-bar {
+        background-color: transparent !important;
+        border-color: transparent !important;
+      }
+
+      /* Keep input bar readable */
+      div.shadow-short { background-color: #1a1a1a !important; }
+
+      /* Page header (top bar) - keep transparent */
+      #page-header {
+        background-color: transparent !important;
+        color: #ffffff !important;
+      }
+
+
+      /* Dimmed text tones like Faded Night */
+      .text-token-text-primary, [class*="text-token-text-primary"] { color: #d0d0d0 !important; }
+      .text-token-text-secondary, [class*="text-token-text-secondary"] { color: #b5b5b5 !important; }
+      .text-token-text-tertiary, [class*="text-token-text-tertiary"] { color: #8e8e8e !important; }
+      [data-message-author-role], [data-message-author-role] p, [data-message-author-role] span, [data-message-author-role] div { color: #d0d0d0 !important; }
+      .markdown, .markdown p, .markdown li, .markdown span, .markdown strong, .markdown em { color: #d0d0d0 !important; }
+      .markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 { color: #e4e4e4 !important; }
+      .ProseMirror .placeholder { color: #8a8a8a !important; }
+    `;
+
+    // 2) Add tiled video background
+    const api = typeof browser !== 'undefined' ? browser : chrome;
+    const videoUrl = api.runtime.getURL('assets/space-background-webm.webm');
+
+    const bg = document.createElement('div');
+    bg.id = 'fadify-space-bg';
+    Object.assign(bg.style, {
+      position: 'fixed',
+      inset: '0',
+      zIndex: '-1',
+      pointerEvents: 'none',
+      display: 'grid'
+    });
+    document.body.appendChild(bg);
+
+    const buildTiles = (vw, vh) => {
+      // Clear existing
+      while (bg.firstChild) bg.removeChild(bg.firstChild);
+      const cols = Math.max(1, Math.ceil(window.innerWidth / vw));
+      const rows = Math.max(1, Math.ceil(window.innerHeight / vh));
+      bg.style.gridTemplateColumns = `repeat(${cols}, ${vw}px)`;
+      bg.style.gridTemplateRows = `repeat(${rows}, ${vh}px)`;
+
+      const total = cols * rows;
+      for (let i = 0; i < total; i++) {
+        const v = document.createElement('video');
+        v.src = videoUrl;
+        v.autoplay = true;
+        v.loop = true;
+        v.muted = true;
+        v.playsInline = true;
+        v.style.width = vw + 'px';
+        v.style.height = vh + 'px';
+        v.style.display = 'block';
+        bg.appendChild(v);
+      }
+    };
+
+    // Probe video to get intrinsic size
+    const probe = document.createElement('video');
+    probe.src = videoUrl;
+    probe.muted = true;
+    probe.playsInline = true;
+    probe.addEventListener('loadedmetadata', () => {
+      const vw = Math.max(64, Math.floor(probe.videoWidth));
+      const vh = Math.max(64, Math.floor(probe.videoHeight));
+      buildTiles(vw, vh);
+      this._onSpaceResize = () => buildTiles(vw, vh);
+      window.addEventListener('resize', this._onSpaceResize);
+    }, { once: true });
+    // Start loading metadata
+    probe.load();
   }
 }
 
