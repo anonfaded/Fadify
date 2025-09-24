@@ -1,0 +1,5 @@
+/* ChatGPT specific base style */
+body {
+  border: 4px solid #00ffcc !important;
+  transition: background 0.5s ease, color 0.5s ease;
+}

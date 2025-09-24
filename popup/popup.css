@@ -1,0 +1,42 @@
+body {
+  font-family: sans-serif;
+  padding: 10px;
+  background: #f4f4f4;
+  width: 220px;
+}
+
+h2 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.themes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.theme-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  background: white;
+  transition: border 0.3s;
+}
+
+.theme-card img {
+  width: 40px;
+  height: 25px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.theme-card.active,
+.theme-card:hover {
+  border: 2px solid #00ccff;
+}
