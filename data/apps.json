@@ -1,0 +1,85 @@
+{
+  "categories": [
+    {
+      "id": "android",
+      "title": "Android",
+      "apps": [
+        {
+          "name": "FadCam",
+          "description": "Seamless background video recorder for Android – ad-free and open-source, with customizable options.",
+          "url": "https://play.google.com/store/apps/details?id=com.fadcam",
+          "preview": "../assets/fadseclab/more-apps/fadcam.png"
+        },
+        {
+          "name": "Fadeboard",
+          "description": "Smart Android keyboard that converts normal characters to styled special characters for social media & creative use.",
+          "url": "https://github.com/anonfaded/fadeboard",
+          "preview": "../assets/fadseclab/more-apps/fadeboard.jpg"
+        },
+        {
+          "name": "FadStore",
+          "description": "An app store only for FadSec Lab apps",
+          "status": "coming-soon",
+          "statusNote": "Coming soon",
+          "preview": "../assets/fadseclab/more-apps/fadstore.png"
+        },
+        {
+          "name": "FaditorX",
+          "description": "Free, open-source Android video editor under development.",
+          "status": "coming-soon",
+          "statusNote": "Coming soon",
+          "preview": "../assets/fadseclab/more-apps/fadify.png"
+        }
+      ]
+    },
+    {
+      "id": "desktop",
+      "title": "Desktop",
+      "apps": [
+        {
+          "name": "FadCrypt",
+          "description": "Graphical app locker and encryption utility to secure access to programs and files with password protection.",
+          "url": "https://github.com/anonfaded/FadCrypt",
+          "preview": "../assets/fadseclab/more-apps/fadcrypt.png"
+        },
+        {
+          "name": "FadADB",
+          "description": "GUI and CLI-based ADB manager for USB & wireless debugging, file transfers, and automation help.",
+          "url": "https://github.com/anonfaded/FadADB",
+          "preview": "../assets/fadseclab/more-apps/fadadb.png"
+        },
+        {
+          "name": "QuranCLI",
+          "description": "Terminal-based Quran app for reading, listening, and generating subtitle-ready timestamps for video editing.",
+          "url": "https://github.com/anonfaded/QuranCLI",
+          "preview": "../assets/fadseclab/more-apps/qurancli.png"
+        },
+        {
+          "name": "Wifade",
+          "description": "Command-Line WiFi Manager with Integrated Brute-Forcer",
+          "url": "https://wifade.faded.dev",
+          "preview": "../assets/fadseclab/more-apps/wifade.png"
+        },
+        {
+          "name": "FadTwix",
+          "description": "For Bulk posting with 5 tweets/minute speed, bulk delete support. Automates Twitter/X via Android using Appium – no X API required.",
+          "status": "coming-soon",
+          "statusNote": "Coming soon — paid",
+          "preview": "../assets/fadseclab/more-apps/fadtwix.png"
+        }
+      ]
+    },
+    {
+      "id": "web",
+      "title": "Web",
+      "apps": [
+        {
+          "name": "FadSec Blog website template",
+          "description": "A cybersecurity-themed Hugo website template built for easy setup in under 5 mins with detailed configuration guide.",
+          "url": "https://github.com/anonfaded/hugo-winston-cyber",
+          "preview": "../assets/fadseclab/more-apps/fadsecblog.png"
+        }
+      ]
+    }
+  ]
+}

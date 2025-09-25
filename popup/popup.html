@@ -166,7 +166,7 @@
                 >
                   <div class="theme-overlay">
                     <span class="theme-name">Space</span>
-                    <span class="theme-meta">Stars with liquid glass UI</span>
+                    <span class="theme-meta">Moving Stars with liquid glass UI</span>
                   </div>
                   <span class="theme-state" aria-hidden="true">
                     <i class="fa-solid fa-check"></i>
@@ -282,65 +282,33 @@
             <div class="card glass apps-card">
               <div class="section-heading">
                 <h2>Discover more</h2>
-                <p>Try the other experiments from FadSec Lab.</p>
+                <p>Browse the rest of the FadSec Lab suite.</p>
               </div>
-              <div class="app-category">
-                <h3>Android</h3>
-                <div class="app-grid">
-                  <a
-                    class="app-card"
-                    href="https://github.com/anonfaded/HaramBlur"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style="--app-preview: url('../assets/fadseclab/love.png');"
-                  >
-                    <div class="app-overlay">
-                      <span class="app-name">HaramBlur</span>
-                      <span class="app-meta">Blur what matters instantly.</span>
-                    </div>
-                  </a>
-                  <a
-                    class="app-card"
-                    href="https://github.com/anonfaded/FocusFlow"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style="--app-preview: url('../assets/fadseclab/love.png');"
-                  >
-                    <div class="app-overlay">
-                      <span class="app-name">FocusFlow</span>
-                      <span class="app-meta">Stay distraction free on the go.</span>
-                    </div>
-                  </a>
+              <div class="apps-body" data-apps-body>
+                <div class="app-category" data-app-category="android">
+                  <h3>
+                    <i class="fa-brands fa-android" aria-hidden="true"></i>
+                    <span>Android</span>
+                  </h3>
+                  <div class="app-grid" data-app-grid="android"></div>
+                </div>
+                <div class="app-category" data-app-category="desktop">
+                  <h3>
+                    <i class="fa-solid fa-desktop" aria-hidden="true"></i>
+                    <span>Desktop</span>
+                  </h3>
+                  <div class="app-grid" data-app-grid="desktop"></div>
+                </div>
+                <div class="app-category" data-app-category="web">
+                  <h3>
+                    <i class="fa-solid fa-globe" aria-hidden="true"></i>
+                    <span>Web</span>
+                  </h3>
+                  <div class="app-grid" data-app-grid="web"></div>
                 </div>
               </div>
-              <div class="app-category">
-                <h3>Desktop</h3>
-                <div class="app-grid">
-                  <a
-                    class="app-card"
-                    href="https://github.com/anonfaded/Fadify"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style="--app-preview: url('../assets/fadseclab/love.png');"
-                  >
-                    <div class="app-overlay">
-                      <span class="app-name">Fadify</span>
-                      <span class="app-meta">Level up ChatGPT with live themes.</span>
-                    </div>
-                  </a>
-                  <a
-                    class="app-card"
-                    href="https://github.com/anonfaded/DeskGlow"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style="--app-preview: url('../assets/fadseclab/love.png');"
-                  >
-                    <div class="app-overlay">
-                      <span class="app-name">DeskGlow</span>
-                      <span class="app-meta">Ambient vibes for your workspace.</span>
-                    </div>
-                  </a>
-                </div>
+              <div class="apps-empty" data-apps-empty hidden>
+                <p>Unable to load apps right now. Please try again later.</p>
               </div>
             </div>
           </section>

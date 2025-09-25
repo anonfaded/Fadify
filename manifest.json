@@ -33,6 +33,7 @@
     }
   ],
   "web_accessible_resources": [
-    "assets/space-background-webm.webm"
+    "assets/space-background-webm.webm",
+    "data/apps.json"
   ]
 }

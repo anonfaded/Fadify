@@ -36,6 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabPanels = Array.from(document.querySelectorAll(".tab-panel"));
   const preferences = window.FadifyPreferences;
   const versionLabel = document.querySelector('[data-extension-version]');
+  const appsBody = document.querySelector('[data-apps-body]');
+  const appsEmpty = document.querySelector('[data-apps-empty]');
+  const appGrids = new Map(
+    Array.from(document.querySelectorAll('[data-app-grid]')).map(grid => [grid.dataset.appGrid, grid])
+  );
 
   const tooltip = document.createElement("div");
   tooltip.className = "tab-tooltip";
@@ -101,6 +106,116 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("resize", repositionTooltip);
   window.addEventListener("scroll", repositionTooltip, true);
+
+  const appsDataUrl = api.runtime?.getURL ? api.runtime.getURL("data/apps.json") : "../data/apps.json";
+
+  const createAppCard = app => {
+    const isAvailable = Boolean(app?.url);
+    const isComingSoon = app?.status === "coming-soon";
+    const element = document.createElement(isAvailable ? "a" : "div");
+    element.classList.add("app-card");
+    if (isComingSoon) {
+      element.classList.add("app-card--soon");
+    }
+
+    if (isAvailable) {
+      element.href = app.url;
+      element.target = "_blank";
+      element.rel = "noopener noreferrer";
+    }
+
+    if (app?.preview) {
+      element.style.setProperty("--app-preview", `url('${app.preview}')`);
+    } else {
+      element.style.setProperty("--app-preview", "linear-gradient(135deg, rgba(54, 60, 110, 0.6), rgba(20, 24, 52, 0.95))");
+    }
+
+    const overlay = document.createElement("div");
+    overlay.className = "app-overlay";
+
+    if (isComingSoon) {
+      const statusBadge = document.createElement("span");
+      statusBadge.className = "app-status";
+      statusBadge.textContent = app?.statusNote || "Coming soon";
+      overlay.appendChild(statusBadge);
+    }
+
+    const nameEl = document.createElement("span");
+    nameEl.className = "app-name";
+    nameEl.textContent = app?.name ?? "Untitled";
+    overlay.appendChild(nameEl);
+
+    if (app?.description) {
+      const meta = document.createElement("span");
+      meta.className = "app-meta";
+      meta.textContent = app.description;
+      overlay.appendChild(meta);
+    }
+
+    element.appendChild(overlay);
+    return element;
+  };
+
+  const renderApps = data => {
+    if (!appsBody || !appsEmpty) return;
+    let totalRendered = 0;
+
+    const categories = Array.isArray(data?.categories) ? data.categories : [];
+
+    categories.forEach(category => {
+      const grid = appGrids.get(category?.id);
+      const categoryWrapper = category?.id
+        ? document.querySelector(`[data-app-category="${category.id}"]`)
+        : null;
+
+      if (!grid || !categoryWrapper) {
+        return;
+      }
+
+      grid.innerHTML = "";
+
+      const apps = Array.isArray(category.apps) ? category.apps : [];
+
+      if (apps.length === 0) {
+        categoryWrapper.hidden = true;
+        return;
+      }
+
+      categoryWrapper.hidden = false;
+
+      apps.forEach(app => {
+        const card = createAppCard(app);
+        grid.appendChild(card);
+        totalRendered += 1;
+      });
+    });
+
+    const hasApps = totalRendered > 0;
+    appsBody.hidden = !hasApps;
+    appsEmpty.hidden = hasApps;
+  };
+
+  const loadApps = () => {
+    if (!appsBody || !appsEmpty) {
+      return;
+    }
+
+    fetch(appsDataUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(renderApps)
+      .catch(error => {
+        console.warn("Fadify: Unable to load apps catalog", error);
+        appsBody.hidden = true;
+        appsEmpty.hidden = false;
+      });
+  };
+
+  loadApps();
 
   if (versionLabel) {
     try {
