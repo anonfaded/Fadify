@@ -35,5 +35,10 @@
   "web_accessible_resources": [
     "assets/space-background-webm.webm",
     "data/apps.json"
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "data_collection_permissions": false
+    }
+  }
 }
