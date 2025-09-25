@@ -320,7 +320,12 @@ class ChatGPTContainer {
       '[data-testid="left-sidebar"] section',
       '[data-testid="left-sidebar"] [class*="bg-token-"]',
       '#stage-sidebar-tiny-bar',
-      '[class*="sidebar-rail-width"]'
+      '[class*="sidebar-rail-width"]',
+      'div.user-message-bubble-color',
+      'div.assistant-message-bubble-color',
+      '[data-testid="conversation-turn"] [class*="bg-token-"]',
+      '[data-message-author-role] [class*="bg-token-"]',
+      '[data-testid="conversation-turn"] article'
     ];
 
     const applyGlassClasses = () => {
