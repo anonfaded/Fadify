@@ -21,6 +21,20 @@
   </head>
   <body>
     <div class="popup-shell" data-active-tab="chatgpt">
+      <div class="unsupported-screen" data-unsupported hidden>
+        <div class="unsupported-card">
+          <button class="unsupported-close" type="button" data-unsupported-close aria-label="Dismiss unsupported site message">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+          <div class="unsupported-face" aria-hidden="true">:(</div>
+          <p class="unsupported-title">Fadify works on ChatGPT only right now.</p>
+          <p class="unsupported-copy">Please open ChatGPT to use the extension features. You can dismiss this dialog to explore the lab.</p>
+          <a class="unsupported-link" href="https://chatgpt.com" target="_blank" rel="noopener noreferrer">
+            Go to ChatGPT
+            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
       <header class="popup-header glass">
         <div class="brand">
           <img src="../assets/fadseclab/fadify.png" alt="Fadify" class="brand-icon" />

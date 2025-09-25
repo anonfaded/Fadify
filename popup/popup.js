@@ -1,17 +1,42 @@
 const api = typeof browser !== "undefined" ? browser : chrome;
 
-const queryActiveTab = () => new Promise((resolve, reject) => {
-  try {
-    const maybePromise = api.tabs.query(
-      { active: true, currentWindow: true },
-      tabs => {
-        if (api.runtime?.lastError) {
-          reject(api.runtime.lastError);
-          return;
-        }
-        resolve(tabs);
-      }
+const logUnsupported = (...args) => {
+  console.debug("Fadify UnsupportedGuard:", ...args);
+};
+
+const isHttpUrl = url => typeof url === "string" && /^https?:/i.test(url);
+
+const pickBestTabCandidate = tabs => {
+  if (!Array.isArray(tabs) || tabs.length === 0) {
+    return null;
+  }
+
+  const httpTabs = tabs.filter(tab => isHttpUrl(tab?.url));
+  if (httpTabs.length) {
+    return (
+      httpTabs.find(tab => tab?.active) ||
+      httpTabs.find(tab => tab?.highlighted) ||
+      httpTabs[0]
     );
+  }
+
+  return (
+    tabs.find(tab => tab?.active) ||
+    tabs.find(tab => tab?.highlighted) ||
+    tabs[0] ||
+    null
+  );
+};
+
+const tabsQuery = options => new Promise((resolve, reject) => {
+  try {
+    const maybePromise = api.tabs.query(options, tabs => {
+      if (api.runtime?.lastError) {
+        reject(api.runtime.lastError);
+        return;
+      }
+      resolve(Array.isArray(tabs) ? tabs : []);
+    });
 
     if (maybePromise && typeof maybePromise.then === "function") {
       maybePromise.then(resolve).catch(reject);
@@ -20,6 +45,94 @@ const queryActiveTab = () => new Promise((resolve, reject) => {
     reject(error);
   }
 });
+
+const windowsGetLastFocused = options => new Promise((resolve, reject) => {
+  try {
+    const maybePromise = api.windows?.getLastFocused?.(options, window => {
+      if (api.runtime?.lastError) {
+        reject(api.runtime.lastError);
+        return;
+      }
+      resolve(window || null);
+    });
+
+    if (maybePromise && typeof maybePromise.then === "function") {
+      maybePromise.then(resolve).catch(reject);
+    }
+  } catch (error) {
+    reject(error);
+  }
+});
+
+const queryActiveTab = async () => {
+  try {
+    const focusedWindow = await windowsGetLastFocused({ populate: true, windowTypes: ["normal"] }).catch(error => {
+      logUnsupported("windows.getLastFocused failed", error);
+      return null;
+    });
+
+    if (focusedWindow?.tabs?.length) {
+      const tabs = focusedWindow.tabs;
+      const activeHttp = tabs.find(tab => tab?.active && isHttpUrl(tab?.url));
+      if (activeHttp) {
+        logUnsupported("Active tab from getLastFocused (active)", activeHttp.url);
+        return activeHttp;
+      }
+
+      const highlightedHttp = tabs.find(tab => tab?.highlighted && isHttpUrl(tab?.url));
+      if (highlightedHttp) {
+        logUnsupported("Active tab from getLastFocused (highlighted)", highlightedHttp.url);
+        return highlightedHttp;
+      }
+
+      const fallbackHttp = pickBestTabCandidate(tabs);
+      if (fallbackHttp) {
+        logUnsupported("Fallback tab from getLastFocused", fallbackHttp.url ?? "<unknown>");
+        return fallbackHttp;
+      }
+      logUnsupported("getLastFocused returned no viable tab");
+    }
+
+    const primaryTabs = await tabsQuery({ active: true, lastFocusedWindow: true, windowType: "normal" }).catch(error => {
+      logUnsupported("Primary tabs.query failed", error);
+      return [];
+    });
+
+    let candidate = pickBestTabCandidate(primaryTabs);
+    if (candidate) {
+      logUnsupported("Active tab from primary query", candidate.url);
+      return candidate;
+    }
+
+    const fallbackTabs = await tabsQuery({ active: true, lastFocusedWindow: true }).catch(error => {
+      logUnsupported("Fallback tabs.query failed", error);
+      return [];
+    });
+
+    candidate = pickBestTabCandidate(fallbackTabs);
+    if (candidate) {
+      logUnsupported("Active tab from fallback query", candidate.url);
+      return candidate;
+    }
+
+    const currentWindowTabs = await tabsQuery({ active: true, currentWindow: true, windowType: "normal" }).catch(error => {
+      logUnsupported("Current-window tabs.query failed", error);
+      return [];
+    });
+
+    candidate = pickBestTabCandidate(currentWindowTabs);
+    if (candidate) {
+      logUnsupported("Active tab from currentWindow query", candidate.url);
+      return candidate;
+    }
+
+    logUnsupported("Unable to resolve active tab");
+    return null;
+  } catch (error) {
+    logUnsupported("queryActiveTab threw", error);
+    return null;
+  }
+};
 
 const setActiveThemeCard = (targetCard, allCards) => {
   allCards.forEach(card => {
@@ -41,6 +154,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const appGrids = new Map(
     Array.from(document.querySelectorAll('[data-app-grid]')).map(grid => [grid.dataset.appGrid, grid])
   );
+  const unsupportedScreen = document.querySelector('[data-unsupported]');
+  const unsupportedClose = document.querySelector('[data-unsupported-close]');
+  let unsupportedDismissed = false;
 
   const tooltip = document.createElement("div");
   tooltip.className = "tab-tooltip";
@@ -49,6 +165,91 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(tooltip);
 
   const tooltipOffset = 18;
+
+  const supportedHostnames = new Set([
+    "chat.openai.com",
+    "chatgpt.com",
+    "www.chatgpt.com"
+  ]);
+
+  const isSupportedUrl = url => {
+    if (!url) return false;
+    try {
+      const { hostname } = new URL(url);
+      if (supportedHostnames.has(hostname)) {
+        return true;
+      }
+      return hostname.endsWith(".chatgpt.com");
+    } catch (error) {
+      return false;
+    }
+  };
+
+  let lastEvaluatedUrl = "";
+
+  const toggleUnsupportedScreen = visible => {
+    if (!unsupportedScreen) {
+      logUnsupported("Overlay element missing");
+      return;
+    }
+    const shouldShow = Boolean(visible && !unsupportedDismissed);
+    
+    if (shouldShow) {
+      unsupportedScreen.removeAttribute('hidden');
+      unsupportedScreen.style.display = 'flex';
+    } else {
+      unsupportedScreen.setAttribute('hidden', '');
+      unsupportedScreen.style.display = 'none';
+    }
+    
+    unsupportedScreen.dataset.visible = shouldShow ? "true" : "false";
+    logUnsupported("Overlay visibility set to", shouldShow, {
+      requested: visible,
+      dismissed: unsupportedDismissed,
+      actualDisplay: unsupportedScreen.style.display
+    });
+  };
+
+  if (unsupportedClose) {
+    logUnsupported("Dismiss control attached");
+    unsupportedClose.addEventListener("click", event => {
+      event.preventDefault();
+      logUnsupported("Dismiss button clicked");
+      unsupportedDismissed = true;
+      toggleUnsupportedScreen(false);
+    });
+  } else {
+    logUnsupported("Dismiss control missing");
+  }
+
+  const evaluateActiveTabSupport = () => {
+    queryActiveTab()
+      .then(tab => {
+        const url = tab?.url ?? "";
+        lastEvaluatedUrl = url;
+        logUnsupported("Evaluating active tab", url || "<unknown>");
+
+        if (!url) {
+          logUnsupported("No URL detected; keeping overlay hidden");
+          toggleUnsupportedScreen(false);
+          return;
+        }
+
+        const supported = isSupportedUrl(url);
+        logUnsupported("Is supported?", supported);
+
+        if (supported) {
+          unsupportedDismissed = false;
+          toggleUnsupportedScreen(false);
+        } else {
+          toggleUnsupportedScreen(true);
+        }
+      })
+      .catch(error => {
+        console.warn("Fadify UnsupportedGuard: unable to evaluate active tab", error);
+        toggleUnsupportedScreen(false);
+      });
+  };
 
   const getTooltipText = target =>
     target?.dataset?.tooltip || target?.getAttribute?.("aria-label") || target?.title || target?.textContent?.trim();
@@ -224,6 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   loadApps();
+  evaluateActiveTabSupport();
 
   if (versionLabel) {
     try {
@@ -254,12 +456,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendThemeToActiveTab = theme => {
     if (!theme) return;
     queryActiveTab()
-      .then(([tab]) => {
-        if (!tab || !tab.id) return;
-        api.tabs.sendMessage(tab.id, { action: "applyTheme", theme });
+      .then(tab => {
+        if (!tab || !tab.id) {
+          logUnsupported("sendTheme: no active tab");
+          return;
+        }
+
+        const url = tab.url || "";
+        if (!isSupportedUrl(url)) {
+          logUnsupported("sendTheme: skipping unsupported tab", url || "<unknown>");
+          return;
+        }
+
+        try {
+          const maybePromise = api.tabs.sendMessage(tab.id, { action: "applyTheme", theme });
+          if (maybePromise && typeof maybePromise.then === "function") {
+            maybePromise.catch(error => {
+              console.warn("Fadify: Unable to message tab", error);
+            });
+          }
+        } catch (error) {
+          console.warn("Fadify: Unable to message tab", error);
+        }
       })
       .catch(error => {
-        console.warn("Fadify: Unable to message tab", error);
+        console.warn("Fadify: Unable to resolve tab for theme message", error);
       });
   };
 
