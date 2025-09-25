@@ -37,6 +37,71 @@ document.addEventListener("DOMContentLoaded", () => {
   const preferences = window.FadifyPreferences;
   const versionLabel = document.querySelector('[data-extension-version]');
 
+  const tooltip = document.createElement("div");
+  tooltip.className = "tab-tooltip";
+  tooltip.setAttribute("role", "tooltip");
+  tooltip.dataset.visible = "false";
+  document.body.appendChild(tooltip);
+
+  const tooltipOffset = 18;
+
+  const getTooltipText = target =>
+    target?.dataset?.tooltip || target?.getAttribute?.("aria-label") || target?.title || target?.textContent?.trim();
+
+  let tooltipAnchor = null;
+
+  const setTooltipVisible = visible => {
+    tooltip.dataset.visible = visible ? "true" : "false";
+    if (!visible) {
+      tooltipAnchor = null;
+    }
+  };
+
+  const placeTooltipForElement = element => {
+    if (!element) return;
+    const elementRect = element.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+    const anchorMidY = elementRect.top + elementRect.height / 2;
+    const minPadding = 8;
+
+    let left = elementRect.left - tooltipRect.width - tooltipOffset;
+    if (left < minPadding) {
+      left = elementRect.right + tooltipOffset;
+    }
+
+    let top = anchorMidY - tooltipRect.height / 2;
+    const maxTop = window.innerHeight - tooltipRect.height - minPadding;
+    if (top < minPadding) {
+      top = minPadding;
+    } else if (top > maxTop) {
+      top = maxTop;
+    }
+
+    tooltip.style.left = `${Math.round(left)}px`;
+    tooltip.style.top = `${Math.round(top)}px`;
+  };
+
+  const showTooltipForElement = (element, text) => {
+    if (!text || !element) return;
+    tooltipAnchor = element;
+    tooltip.textContent = text;
+    setTooltipVisible(true);
+    requestAnimationFrame(() => placeTooltipForElement(element));
+  };
+
+  const hideTooltip = () => {
+    setTooltipVisible(false);
+  };
+
+  const repositionTooltip = () => {
+    if (tooltip.dataset.visible === "true" && tooltipAnchor) {
+      placeTooltipForElement(tooltipAnchor);
+    }
+  };
+
+  window.addEventListener("resize", repositionTooltip);
+  window.addEventListener("scroll", repositionTooltip, true);
+
   if (versionLabel) {
     try {
       const manifest = api.runtime?.getManifest?.();
@@ -144,6 +209,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   tabButtons.forEach(btn => {
+    btn.addEventListener("mouseenter", event => {
+      const label = getTooltipText(btn);
+      if (!label) return;
+      showTooltipForElement(btn, label);
+    });
+
+    btn.addEventListener("mouseleave", () => {
+      hideTooltip();
+    });
+
+    btn.addEventListener("focus", () => {
+      const label = getTooltipText(btn);
+      if (!label) return;
+      showTooltipForElement(btn, label);
+    });
+
+    btn.addEventListener("blur", () => {
+      hideTooltip();
+    });
+
     btn.addEventListener("click", () => {
       const tabName = btn.dataset.tab;
       if (!tabName) return;
