@@ -7,6 +7,8 @@
 [![Get the Add-On](https://img.shields.io/badge/Firefox-Get%20the%20Add--on-FF7139?style=for-the-badge&logo=firefox-browser&logoColor=white&labelColor=FF7139&color=FF4500)](https://addons.mozilla.org/en-US/firefox/addon/fadify/)
 [![Version](https://img.shields.io/badge/version-1.0-4F46E5?style=for-the-badge&labelColor=6366F1&color=4F46E5)](https://github.com/anonfaded/Fadify)
 [![License](https://img.shields.io/badge/license-GPL%20v3.0-10B981?style=for-the-badge&labelColor=059669&color=10B981)](LICENSE)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20Me-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white&labelColor=FF5E5B&color=FF5E5B)](https://ko-fi.com/D1D510FNSV)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?style=for-the-badge&logo=discord&logoColor=white&labelColor=5865F2&color=5865F2)](https://discord.gg/kvAZvdkuuN)
 
 **Fadify** is a powerful Firefox extension that transforms your web experience with **true dark aesthetics** and modern utilities. Works on both **desktop and mobile Firefox**.
 
