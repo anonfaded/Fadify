@@ -39,6 +39,7 @@
   "browser_specific_settings": {
     "gecko": {
       "data_collection_permissions": {
+        "required": false,
         "usage_statistics": false,
         "crash_reports": false
       }
