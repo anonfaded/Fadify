@@ -6,17 +6,17 @@
   "permissions": ["tabs", "activeTab", "storage"],
   "content_security_policy": "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self'",
   "icons": {
-    "16": "assets/fadseclab/fadify.png",
-    "32": "assets/fadseclab/fadify.png",
-    "48": "assets/fadseclab/fadify.png",
-    "128": "assets/fadseclab/fadify.png"
+    "16": "assets/fadseclab/fadify-16.png",
+    "32": "assets/fadseclab/fadify-32.png",
+    "48": "assets/fadseclab/fadify-48.png",
+    "128": "assets/fadseclab/fadify-128.png"
   },
   "browser_action": {
     "default_icon": {
-      "16": "assets/fadseclab/fadify.png",
-      "32": "assets/fadseclab/fadify.png",
-      "48": "assets/fadseclab/fadify.png",
-      "128": "assets/fadseclab/fadify.png"
+      "16": "assets/fadseclab/fadify-16.png",
+      "32": "assets/fadseclab/fadify-32.png",
+      "48": "assets/fadseclab/fadify-48.png",
+      "128": "assets/fadseclab/fadify-128.png"
     },
     "default_popup": "popup/popup.html",
     "default_title": "Fadify"
