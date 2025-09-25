@@ -50,9 +50,13 @@ class ChatGPTContainer {
         background-color: #000000 !important;
       }
       
-      /* Input bar container - target the shadow-short class */
+      /* Input bar container - bring over the glass treatment */
       div.shadow-short {
-        background-color: #1a1a1a !important;
+        background: rgba(5, 5, 5, 0.76) !important;
+        -webkit-backdrop-filter: blur(22px) saturate(120%) !important;
+        backdrop-filter: blur(22px) saturate(120%) !important;
+        border: 1px solid rgba(0, 0, 0, 0.55) !important;
+        box-shadow: 0 20px 46px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
       }
 
       /* Softer text tones for readability on pure black */
@@ -77,6 +81,32 @@ class ChatGPTContainer {
       [data-message-author-role] span,
       [data-message-author-role] div {
         color: #d0d0d0 !important;
+      }
+
+      /* Chat bubbles - replicate the space theme glass effect */
+      [data-testid="conversation-turn"] article,
+      div.assistant-message-bubble-color,
+      div.user-message-bubble-color,
+      [data-message-author-role] [class*="bg-token-"] {
+        background: rgba(5, 5, 5, 0.76) !important;
+        -webkit-backdrop-filter: blur(22px) saturate(120%) !important;
+        backdrop-filter: blur(22px) saturate(120%) !important;
+        border: 1px solid rgba(0, 0, 0, 0.55) !important;
+        box-shadow: 0 20px 46px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+      }
+
+      /* User chat bubbles - crimson gradient edge for contrast */
+      [data-message-author-role="user"] [data-testid="conversation-turn"] article,
+      [data-message-author-role="user"] div.user-message-bubble-color,
+      div.user-message-bubble-color {
+        border: 1px solid transparent !important;
+        border-radius: 18px !important;
+        background: linear-gradient(rgba(5, 5, 5, 0.76), rgba(5, 5, 5, 0.76)) padding-box,
+                    linear-gradient(135deg, rgba(140, 0, 0, 0.92), rgba(0, 0, 0, 0.9)) border-box !important;
+        background-clip: padding-box, border-box !important;
+        box-shadow: 0 20px 46px rgba(0, 0, 0, 0.55),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                    0 0 12px rgba(180, 16, 48, 0.2) !important;
       }
 
       /* Markdown content inside messages */
