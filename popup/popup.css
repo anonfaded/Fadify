@@ -824,7 +824,17 @@ a:hover {
   height: 16px;
   object-fit: contain;
   -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
   user-select: none;
+  pointer-events: none;
+}
+
+.support-note .fadseclab-icon {
+  height: 29px;
+  margin-bottom: 5px;
 }
 
 .support-note .note-text {
