@@ -254,6 +254,16 @@ class ChatGPTContainer {
         box-shadow: 0 20px 46px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
       }
 
+      #stage-slideover-sidebar.fadify-space-glass,
+      [data-testid="left-sidebar"].fadify-space-glass,
+      #stage-sidebar-tiny-bar.fadify-space-glass,
+      [class*="sidebar-rail-width"].fadify-space-glass,
+      #stage-slideover-sidebar .fadify-space-glass,
+      [data-testid="left-sidebar"] .fadify-space-glass {
+        background: rgba(3, 3, 3, 0.9) !important;
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+      }
+
       /* User chat bubbles - add subtle crimson gradient border for differentiation */
       .fadify-space-glass.user-message-bubble-color,
       [data-message-author-role="user"] .fadify-space-glass {
