@@ -211,7 +211,9 @@ a:hover {
 }
 
 .lab-btn.chatgpt.active {
-  filter: brightness(1) invert(0);
+  /* keep same base background and keep icon white when active */
+  background: rgba(24, 30, 58, 0.6);
+  filter: brightness(0) invert(1);
 }
 
 .lab-btn.chatgpt i {
@@ -235,6 +237,16 @@ a:hover {
   color: #0b0f1e;
   box-shadow: 0 12px 24px rgba(95, 119, 255, 0.4);
   outline: none;
+}
+
+/* Keep ChatGPT tab icon visible (no purple fill) when active */
+.tab-btn.lab-btn.chatgpt.active {
+  background: rgba(24, 30, 58, 0.6);
+  background-image: url('../labs/chatgpt/chatgpt.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px 20px;
+  color: var(--text-primary);
 }
 
 .tab-btn:not(.active):hover {
@@ -416,7 +428,7 @@ a:hover {
   width: 42px;
   height: 42px;
   border-radius: 14px;
-  background: rgba(116, 140, 255, 0.18);
+  background: rgba(116, 140, 255, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -425,6 +437,14 @@ a:hover {
 
 .lab-icon i {
   font-size: 18px;
+}
+
+/* PNG inside lab icon */
+.lab-icon-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
 .lab-info {
@@ -704,12 +724,10 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  flex-shrink: 0;
   /* round only top corners */
   border-radius: 16px 16px 0 0;
   margin-top: auto;
 }
-
 .support-actions {
   display: flex;
   gap: 6px;
@@ -740,20 +758,32 @@ a:hover {
   font-size: 12px;
 }
 
+/* Stars badge wrapper in footer (replaces GitHub button) */
+.support-btn.github {
+  background: rgba(26, 28, 42, 0.92);
+  color: var(--text-primary);
+  border: 1px solid rgba(131, 140, 220, 0.38);
+  box-shadow: 0 10px 18px rgba(10, 10, 15, 0.4);
+}
+
 .support-btn.kofi {
   background: linear-gradient(135deg, #ffdd02, #ffcc00);
   border-color: rgba(255, 204, 0, 0.6);
-  color: #1a1a1a;
+  color: #000000 !important;
   font-weight: 700;
+}
+
+.support-btn.kofi span {
+  color: #000000 !important;
 }
 
 .custom-coffee {
   background-image: url('../assets/fadseclab/coffee_cup.png');
-  background-size: 18px 18px;
+  background-size: 24px 24px;
   background-repeat: no-repeat;
   background-position: center;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   display: inline-block;
   animation: coffeeShake 2s infinite;
 }
@@ -762,13 +792,6 @@ a:hover {
   0%, 50%, 100% { transform: rotate(0deg); }
   10%, 30% { transform: rotate(-3deg); }
   20%, 40% { transform: rotate(3deg); }
-}
-
-.support-btn.github {
-  background: rgba(26, 28, 42, 0.92);
-  color: var(--text-primary);
-  border: 1px solid rgba(131, 140, 220, 0.38);
-  box-shadow: 0 10px 18px rgba(10, 10, 15, 0.4);
 }
 
 .support-btn.discord {
@@ -791,18 +814,22 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-secondary);
   margin-top: 2px;
+  user-select: none;
 }
 
 .support-note .note-icon {
-  height: 14px;
+  height: 16px;
   object-fit: contain;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .support-note .note-text {
   color: var(--text-secondary);
+  user-select: none;
 }
 
   @media (max-width: 400px) {
