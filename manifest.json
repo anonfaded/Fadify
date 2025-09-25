@@ -39,7 +39,11 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "@fadify-extension",
-      "strict_min_version": "58.0"
+      "strict_min_version": "79.0",
+      "data_collection_permissions": {
+        "usage_statistics": false,
+        "crash_reports": false
+      }
     }
   }
 }
