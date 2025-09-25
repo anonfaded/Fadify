@@ -26,9 +26,8 @@ body {
 body {
   margin: 0;
   padding: 0;
-  width: 560px;
-  max-width: 100%;
-  min-height: 760px;
+  width: 800px;
+  height: 600px;
   font-family: "Ubuntu", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-gradient);
   color: var(--text-primary);
@@ -63,11 +62,13 @@ a:hover {
 
 .popup-shell {
   width: 100%;
-  padding: 16px;
+  height: 100%;
+  /* zero gap at very top and bottom so header/footer can touch edges */
+  padding: 0 12px 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  min-height: 100%;
+  /* keep a small internal gap between header/workspace/footer */
+  gap: 6px;
 }
 
 .glass {
@@ -79,11 +80,15 @@ a:hover {
 }
 
 .popup-header {
-  padding: 12px 16px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(120, 136, 220, 0.18);
+  /* round only bottom corners */
+  border-radius: 0 0 16px 16px;
+  flex-shrink: 0;
 }
 
 .brand {
@@ -93,33 +98,33 @@ a:hover {
 }
 
 .brand-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   object-fit: cover;
-  box-shadow: 0 14px 28px rgba(98, 87, 255, 0.35);
+  box-shadow: 0 12px 24px rgba(98, 87, 255, 0.3);
 }
 
 .brand-copy h1 {
-  font-size: 20px;
-  letter-spacing: 0.3px;
+  font-size: 18px;
+  letter-spacing: 0.2px;
 }
 
 .brand-copy p {
   margin: 2px 0 0;
-  font-size: 11px;
-  line-height: 1.35;
+  font-size: 10px;
+  line-height: 1.3;
 }
 
 .brand-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  border-radius: 12px;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 10px;
   background: rgba(20, 28, 52, 0.75);
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: 11px;
   border: 1px solid rgba(110, 126, 220, 0.35);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
@@ -138,9 +143,11 @@ a:hover {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
-  gap: 16px;
-  padding: 14px;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 10px;
+  padding: 8px;
+  overflow: hidden;
+  margin-top: 6px;
 }
 
 .tab-strip {
@@ -148,7 +155,7 @@ a:hover {
   flex-direction: column;
   justify-content: space-between;
   align-items: stretch;
-  padding: 10px 6px;
+  padding: 8px 4px;
   border-right: 1px solid rgba(120, 136, 220, 0.18);
 }
 
@@ -158,60 +165,80 @@ a:hover {
   gap: 8px;
 }
 
+.lab-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
 .tab-cluster--bottom {
   padding-top: 12px;
   border-top: 1px solid rgba(120, 136, 220, 0.18);
 }
 
 .tab-btn {
-  width: 100%;
+  width: 44px;
+  height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 4px;
-  padding: 8px 4px;
-  border-radius: 12px;
+  border-radius: 14px;
   border: 1px solid transparent;
   background: rgba(24, 30, 58, 0.6);
   color: var(--text-secondary);
   font-weight: 500;
-  font-size: 11px;
   cursor: pointer;
-  transition: all 0.25s ease;
-  min-height: 54px;
+  transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
 }
 
 .tab-btn i {
-  font-size: 15px;
+  font-size: 16px;
 }
 
-.tab-label {
-  font-size: 10px;
-  letter-spacing: 0.3px;
-  color: var(--text-secondary);
+.lab-btn {
+  background: rgba(98, 110, 255, 0.15);
+  border-color: rgba(116, 140, 255, 0.3);
+}
+
+.lab-btn.chatgpt {
+  background-image: url('../labs/chatgpt/chatgpt.png');
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: brightness(0) invert(1);
+}
+
+.lab-btn.chatgpt.active {
+  filter: brightness(1) invert(0);
+}
+
+.lab-btn.chatgpt i {
+  display: none;
+}
+
+.lab-expand-btn {
+  background: rgba(24, 30, 58, 0.4);
+  border-style: dashed;
+  border-color: rgba(116, 140, 255, 0.25);
+}
+
+.lab-expand-btn i {
+  font-size: 14px;
 }
 
 .tab-btn.active,
 .tab-btn:focus-visible {
-  border-color: rgba(116, 140, 255, 0.45);
-  background: linear-gradient(135deg, rgba(98, 110, 255, 0.85), rgba(154, 125, 255, 0.95));
+  border-color: rgba(116, 140, 255, 0.65);
+  background: linear-gradient(135deg, rgba(98, 110, 255, 0.9), rgba(154, 125, 255, 0.95));
   color: #0b0f1e;
-  box-shadow: 0 12px 24px rgba(95, 119, 255, 0.32);
+  box-shadow: 0 12px 24px rgba(95, 119, 255, 0.4);
   outline: none;
 }
 
-.tab-btn.active .tab-label,
-.tab-btn:focus-visible .tab-label {
-  color: #0b0f1e;
-}
-
 .tab-btn:not(.active):hover {
-  border-color: rgba(116, 140, 255, 0.25);
-  color: var(--text-primary);
-}
-
-.tab-btn:not(.active):hover .tab-label {
+  border-color: rgba(116, 140, 255, 0.35);
   color: var(--text-primary);
 }
 
@@ -226,7 +253,7 @@ a:hover {
 .tab-panel {
   display: none;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   width: 100%;
   overflow-y: auto;
   padding: 2px 6px 4px 0;
@@ -247,10 +274,10 @@ a:hover {
 }
 
 .card {
-  padding: 16px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .section-heading h2 {
@@ -264,15 +291,15 @@ a:hover {
 
 .theme-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
 }
 
 .theme-card {
   position: relative;
   width: 100%;
-  min-height: 210px;
-  border-radius: 18px;
+  min-height: 180px;
+  border-radius: 16px;
   background-image: var(--preview-url);
   background-size: cover;
   background-position: center;
@@ -369,77 +396,168 @@ a:hover {
   gap: 20px;
 }
 
-.lab-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
-}
-
-.lab-card {
-  position: relative;
-  border-radius: 16px;
-  padding: 16px;
-  background: rgba(22, 26, 46, 0.8);
-  border: 1px solid rgba(110, 126, 220, 0.25);
+.current-lab {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 150px;
 }
 
-.lab-card .lab-header {
+.lab-item {
   display: flex;
   gap: 12px;
-  align-items: flex-start;
+  align-items: center;
+  padding: 16px;
+  background: rgba(22, 26, 46, 0.6);
+  border-radius: 16px;
+  border: 1px solid rgba(116, 140, 255, 0.35);
 }
 
-.lab-card .lab-header i {
-  width: 34px;
-  height: 34px;
-  border-radius: 12px;
-  display: inline-flex;
+.lab-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: rgba(116, 140, 255, 0.18);
+  display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(116, 140, 255, 0.18);
-  color: rgba(148, 170, 255, 0.85);
-  font-size: 16px;
+  color: rgba(148, 170, 255, 0.9);
 }
 
-.lab-card h3 {
+.lab-icon i {
+  font-size: 18px;
+}
+
+.lab-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lab-info h3 {
   font-size: 16px;
   margin: 0;
+  color: var(--text-primary);
 }
 
-.lab-card p {
+.lab-info p {
   font-size: 12px;
-  margin: 4px 0 0;
-  line-height: 1.5;
+  margin: 0;
+  color: var(--text-secondary);
 }
 
 .lab-status {
-  align-self: flex-start;
-  padding: 4px 10px;
+  display: inline-block;
+  padding: 4px 8px;
   border-radius: 999px;
   font-size: 11px;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
-  border: 1px solid rgba(116, 140, 255, 0.45);
-  color: rgba(186, 196, 255, 0.9);
+  font-weight: 600;
 }
 
-.lab-card.is-live {
-  border-color: rgba(116, 140, 255, 0.55);
+.lab-status.live {
+  background: rgba(34, 197, 94, 0.15);
+  color: rgba(34, 197, 94, 0.9);
+  border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
-.lab-card.is-soon {
-  border-style: dashed;
-}
-
-.labs-footer {
+.labs-cta {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 16px;
+  background: rgba(12, 15, 32, 0.4);
+  border-radius: 16px;
+  border: 1px solid rgba(120, 136, 220, 0.15);
+}
+
+.labs-cta p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.cta-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(34, 42, 78, 0.6);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(130, 142, 220, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.cta-link i {
+  font-size: 13px;
+  color: var(--accent);
+}
+
+.cta-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(70, 84, 200, 0.25);
+  text-decoration: none;
+}
+
+.roadmap-card {
+  gap: 20px;
+}
+
+.roadmap-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.roadmap-section h3 {
+  font-size: 15px;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.roadmap-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.roadmap-list li {
+  display: flex;
+  gap: 12px;
   align-items: flex-start;
+  padding: 8px 0;
+}
+
+.roadmap-list.current i {
+  color: rgba(34, 197, 94, 0.8);
+  margin-top: 2px;
+  font-size: 14px;
+}
+
+.roadmap-list.upcoming i {
+  color: var(--accent);
+  margin-top: 2px;
+  font-size: 14px;
+}
+
+.roadmap-list span {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
 }
 
 .apps-card {
@@ -582,16 +700,19 @@ a:hover {
 }
 
 .support {
-  padding: 12px 16px;
+  padding: 8px 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   flex-shrink: 0;
+  /* round only top corners */
+  border-radius: 16px 16px 0 0;
+  margin-top: auto;
 }
 
 .support-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   justify-content: space-between;
   flex-wrap: nowrap;
 }
@@ -601,11 +722,11 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 9px 12px;
-  border-radius: 12px;
+  gap: 5px;
+  padding: 8px 10px;
+  border-radius: 10px;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 11px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   min-width: 0;
   text-decoration: none;
@@ -616,13 +737,31 @@ a:hover {
 }
 
 .support-btn i {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .support-btn.kofi {
-  background: linear-gradient(135deg, rgba(255, 107, 150, 0.95), rgba(255, 159, 107, 0.95));
-  color: #1b1028;
-  box-shadow: 0 10px 18px rgba(255, 122, 148, 0.3);
+  background: linear-gradient(135deg, #ffdd02, #ffcc00);
+  border-color: rgba(255, 204, 0, 0.6);
+  color: #1a1a1a;
+  font-weight: 700;
+}
+
+.custom-coffee {
+  background-image: url('../assets/fadseclab/coffee_cup.png');
+  background-size: 18px 18px;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  animation: coffeeShake 2s infinite;
+}
+
+@keyframes coffeeShake {
+  0%, 50%, 100% { transform: rotate(0deg); }
+  10%, 30% { transform: rotate(-3deg); }
+  20%, 40% { transform: rotate(3deg); }
 }
 
 .support-btn.github {
@@ -652,13 +791,13 @@ a:hover {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--text-secondary);
   margin-top: 2px;
 }
 
 .support-note .note-icon {
-  height: 16px;
+  height: 14px;
   object-fit: contain;
 }
 
@@ -666,23 +805,32 @@ a:hover {
   color: var(--text-secondary);
 }
 
-@media (max-width: 360px) {
-  body {
-    width: 100%;
-    min-width: 320px;
-  }
+  @media (max-width: 400px) {
+    body {
+      width: 100%;
+      min-width: 320px;
+      height: auto;
+      min-height: 500px;
+    }
 
-  .popup-shell {
-    padding: 16px 14px 18px;
-  }
+    .popup-shell {
+      padding: 0 12px 12px;
+      height: auto;
+      min-height: 100vh;
+    }
 
-  .workspace {
-    grid-template-columns: 80px minmax(0, 1fr);
-    gap: 12px;
-    padding: 12px;
-  }
+    .workspace {
+      grid-template-columns: 56px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px;
+    }
 
-  .tab-btn {
-    min-height: 52px;
+    .tab-btn {
+      width: 40px;
+      height: 40px;
+    }
+
+    .tab-btn i {
+      font-size: 14px;
+    }
   }
-}
