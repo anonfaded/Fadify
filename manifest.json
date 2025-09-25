@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Fadify",
   "version": "1.0",
-  "description": "Theme labs for ChatGPT and more sites to come",
+  "description": "Modify the web with true dark aesthetics and utilities.",
   "permissions": ["tabs", "activeTab", "storage"],
   "content_security_policy": "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self'",
   "icons": {

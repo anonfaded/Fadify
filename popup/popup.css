@@ -28,6 +28,8 @@ body {
   padding: 0;
   width: 800px;
   height: 600px;
+  min-width: 320px;
+  min-height: 480px;
   font-family: "Ubuntu", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-gradient);
   color: var(--text-primary);
@@ -421,8 +423,14 @@ a:hover {
 
 .theme-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 14px;
+}
+
+@media (max-width: 640px) and (hover: none) and (pointer: coarse) {
+  .theme-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .theme-card {
@@ -757,8 +765,22 @@ a:hover {
 
 .app-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 14px;
+}
+
+@media (max-width: 640px) and (hover: none) and (pointer: coarse) {
+  .app-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) and (hover: none) and (pointer: coarse) {
+  .app-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
 }
 
 .app-card {
@@ -1060,32 +1082,159 @@ a:hover {
   user-select: none;
 }
 
-  @media (max-width: 400px) {
+  /* Mobile breakpoint - only apply these changes on actual mobile devices */
+  @media (max-width: 640px) and (hover: none) and (pointer: coarse) {
     body {
-      width: 100%;
-      min-width: 320px;
-      height: auto;
-      min-height: 500px;
+      width: 100vw !important;
+      max-width: none !important;
+      height: 100vh !important;
+      max-height: none !important;
+      min-height: 100vh !important;
     }
 
     .popup-shell {
-      padding: 0 12px 12px;
-      height: auto;
-      min-height: 100vh;
+      padding: 0 8px 8px;
+      height: 100vh;
+      gap: 4px;
+    }
+
+    .popup-header {
+      padding: 10px 16px;
+      min-height: 56px;
+      border-radius: 0;
+    }
+
+    .brand-copy h1 {
+      font-size: 16px;
+    }
+
+    .brand-copy p {
+      font-size: 11px;
+    }
+
+    .brand-link {
+      padding: 6px 10px;
+      font-size: 10px;
     }
 
     .workspace {
-      grid-template-columns: 56px minmax(0, 1fr);
-      gap: 10px;
-      padding: 10px;
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding: 0;
+      margin-top: 0;
+    }
+
+    .tab-strip {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 6px 8px;
+      border-right: none;
+      border-bottom: 1px solid rgba(120, 136, 220, 0.18);
+      gap: 8px;
+    }
+
+    .tab-cluster {
+      flex-direction: row;
+      gap: 6px;
+    }
+
+    .tab-cluster--bottom {
+      padding-top: 0;
+      border-top: none;
+      padding-left: 8px;
+      border-left: 1px solid rgba(120, 136, 220, 0.18);
+    }
+
+    .lab-selector {
+      flex-direction: row;
+      gap: 4px;
     }
 
     .tab-btn {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
     }
 
     .tab-btn i {
-      font-size: 14px;
+      font-size: 13px;
+    }
+
+    .tab-panels {
+      padding-right: 0;
+      padding: 8px;
+    }
+
+    .card {
+      padding: 10px;
+    }
+
+    .section-heading h2 {
+      font-size: 16px;
+    }
+
+    .section-heading p {
+      font-size: 11px;
+    }
+
+    .support {
+      padding: 6px 10px;
+      border-radius: 0;
+    }
+
+    .support-actions {
+      gap: 4px;
+    }
+
+    .support-btn {
+      padding: 6px 8px;
+      font-size: 10px;
+      gap: 4px;
+    }
+
+    .support-note {
+      font-size: 12px;
+      gap: 4px;
+    }
+
+    .support-note .note-icon {
+      height: 16px;
+    }
+
+    .support-note .fadseclab-icon,
+    .support-note .note-icon--love,
+    .support-note .note-icon--pakistan {
+      height: 16px;
+    }
+  }
+
+  /* Small mobile breakpoint */
+  @media (max-width: 400px) and (hover: none) and (pointer: coarse) {
+    .popup-shell {
+      padding: 0 6px 6px;
+    }
+
+    .popup-header {
+      padding: 8px 12px;
+    }
+
+    .workspace {
+      padding: 0;
+    }
+
+    .tab-panels {
+      padding: 6px;
+    }
+
+    .card {
+      padding: 8px;
+    }
+
+    .app-card {
+      min-height: 160px;
+    }
+
+    .theme-card {
+      min-height: 140px;
     }
   }

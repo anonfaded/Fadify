@@ -129,7 +129,8 @@ class ChatGPTContainer {
       .ProseMirror .placeholder { color: #8a8a8a !important; }
 
       /* Page header (top bar) - make transparent */
-      #page-header {
+      #page-header,
+      .bg-token-bg-primary.md\\:hidden {
         background-color: transparent !important;
         color: #ffffff !important;
       }
@@ -241,7 +242,8 @@ class ChatGPTContainer {
       }
 
       /* Let main containers be transparent so the video shows */
-      #__next, #thread, #page-header {
+      #__next, #thread, #page-header,
+      .bg-token-bg-primary.md\\:hidden {
         background-color: transparent !important;
       }
       
@@ -345,7 +347,8 @@ class ChatGPTContainer {
       }
 
       /* Page header (top bar) - keep transparent */
-      #page-header {
+      #page-header,
+      .bg-token-bg-primary.md\\:hidden {
         background-color: transparent !important;
         color: #ffffff !important;
       }
