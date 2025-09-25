@@ -270,9 +270,19 @@ class ChatGPTContainer {
         background-color: transparent !important;
       }
 
-      /* Make the input area background visible */
-      div.shadow-short { 
-        background-color: #1a1a1a !important; 
+      /*
+        Applies a darker, seamless glass panel while keeping the space backdrop visible.
+      */
+      div.shadow-short {
+        background: rgba(12, 12, 12, 0.42) !important;
+        background-image:
+          radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.08), transparent 55%),
+          radial-gradient(circle at 85% 85%, rgba(0, 0, 0, 0.45), transparent 60%);
+        background-blend-mode: screen, normal;
+        -webkit-backdrop-filter: blur(22px) saturate(140%) !important;
+        backdrop-filter: blur(22px) saturate(140%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5) !important;
       }
 
       /* Text coloring from Faded Night */
@@ -311,9 +321,6 @@ class ChatGPTContainer {
         min-height: 96px !important;
         background: none !important;
       }
-
-      /* Keep input bar readable */
-      div.shadow-short { background-color: #1a1a1a !important; }
 
       /* Page header (top bar) - keep transparent */
       #page-header {
