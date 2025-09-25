@@ -159,6 +159,7 @@ class ChatGPTContainer {
   }
 
   removeCustomStyles() {
+    console.log("Fadify: Removing all custom styles.");
     ['fadify-faded-night-styles', 'fadify-space-styles'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.remove();
@@ -167,6 +168,16 @@ class ChatGPTContainer {
     const spaceBg = document.getElementById('fadify-space-bg');
     if (spaceBg) spaceBg.remove();
 
+    // Remove any interval timers from our gradient remover script
+    if (window.fadifyIntervalId) {
+      clearInterval(window.fadifyIntervalId);
+      window.fadifyIntervalId = null;
+    }
+    
+    // Remove our script element if it exists
+    const styleRemover = document.getElementById('fadify-space-style-remover');
+    if (styleRemover) styleRemover.remove();
+
     if (this._onSpaceResize) {
       window.removeEventListener('resize', this._onSpaceResize);
       this._onSpaceResize = null;
@@ -174,6 +185,7 @@ class ChatGPTContainer {
   }
 
   applySpaceTheme() {
+    console.log("Fadify: Applying Space Theme with gradient and sidebar fixes.");
     // 1) Create styles (transparent app surfaces, same dimmed text)
     let styleEl = document.getElementById('fadify-space-styles');
     if (!styleEl) {
@@ -193,18 +205,111 @@ class ChatGPTContainer {
       #__next, #thread, #page-header {
         background-color: transparent !important;
       }
+      
+      /* Use the same selectors as Faded Night theme but make them transparent */
+      /* Bottom section - fully transparent to show space animation */
+      .text-base.mx-auto[class*="thread-content-margin"] {
+        background-color: transparent !important;
+      }
 
-      /* Make common scroll/content wrappers transparent so stars show through */
-      div[class*="overflow-y-auto"],
-      div[class*="thread-bottom-container"],
-      div[class*="thread"],
-      div[class*="content-fade"],
-      .text-base.mx-auto[class*="thread-content-margin"],
-      .text-token-text-secondary.relative.mt-auto,
-      #stage-slideover-sidebar,
-      #stage-sidebar-tiny-bar {
+      /* Bottom info/footer bar - fully transparent to show space animation */
+      .text-token-text-secondary.relative.mt-auto {
+        background-color: transparent !important;
+        color: #ffffff !important;
+      }
+
+      /*
+        Targets the primary container for the input and footer area.
+        This rule makes the container transparent, resolving the background issue.
+      */
+      #thread-bottom-container {
+        background-color: transparent !important;
+        border-top-color: transparent !important; /* Also removes the faint top border */
+      }
+
+      /*
+        Disables the ::after pseudo-element's gradient overlay.
+        This is the final fix to remove the gray fade effect at the bottom.
+      */
+      #thread-bottom-container.content-fade::after {
+        background: none !important;
+      }
+
+      /* Sidebar panel when opened (inside the slideover) */
+      div[class*="w-[var(--sidebar-width)]"][class*="bg-token-bg-elevated-secondary"],
+      aside[class*="w-[var(--sidebar-width)]"][class*="bg-token-bg-elevated-secondary"] {
+        background-color: transparent !important;
+        color: #ffffff !important;
+      }
+
+      /* Sidebar inner sections that use elevated bg token */
+      #stage-slideover-sidebar .bg-token-bg-elevated-secondary,
+      #stage-slideover-sidebar [class*="bg-token-bg-elevated-secondary"] {
+        background-color: transparent !important;
+      }
+
+      /* Sidebar header bar */
+      #sidebar-header,
+      #stage-slideover-sidebar #sidebar-header {
+        background-color: transparent !important;
+        color: #ffffff !important;
+      }
+
+      /* Sidebar (slideover) and tiny rail */
+      #stage-slideover-sidebar {
         background-color: transparent !important;
         border-color: transparent !important;
+      }
+
+      #stage-sidebar-tiny-bar {
+        background-color: transparent !important;
+      }
+
+      /* Fallback by class in case IDs change but class remains */
+      .group\/tiny-bar.flex.h-full[class*="sidebar-rail-width"] {
+        background-color: transparent !important;
+      }
+
+      /* Make the input area background visible */
+      div.shadow-short { 
+        background-color: #1a1a1a !important; 
+      }
+
+      /* Text coloring from Faded Night */
+      .text-token-text-primary,
+      [class*="text-token-text-primary"] {
+        color: #d0d0d0 !important;
+      }
+
+      .text-token-text-secondary,
+      [class*="text-token-text-secondary"] {
+        color: #b5b5b5 !important;
+      }
+
+      .text-token-text-tertiary,
+      [class*="text-token-text-tertiary"] {
+        color: #8e8e8e !important;
+      }
+
+      /* Ensure chat message text uses the dimmed tone */
+      [data-message-author-role],
+      [data-message-author-role] p,
+      [data-message-author-role] span,
+      [data-message-author-role] div {
+        color: #d0d0d0 !important;
+      }
+
+      /* Turn off all gradients */
+      *[style*="linear-gradient"] {
+        background: none !important;
+      }
+
+      /* Overlay strip above the composer from inspector snapshot */
+      .absolute.start-0.end-0.bottom-full.z-20 {
+        pointer-events: none !important;
+        height: 96px !important;
+        min-height: 96px !important;
+        background: none !important;
       }
 
       /* Keep input bar readable */
@@ -242,6 +347,8 @@ class ChatGPTContainer {
     });
     document.body.appendChild(bg);
 
+    // (No fixed bottom gradient; handled via container gradient above)
+
     const buildTiles = (vw, vh) => {
       // Clear existing
       while (bg.firstChild) bg.removeChild(bg.firstChild);
@@ -257,13 +364,15 @@ class ChatGPTContainer {
         v.autoplay = true;
         v.loop = true;
         v.muted = true;
-        v.playsInline = true;
+        v.playsInLine = true;
         v.style.width = vw + 'px';
         v.style.height = vh + 'px';
         v.style.display = 'block';
         bg.appendChild(v);
       }
     };
+    
+    // We no longer need the complex script, just let the CSS above handle it
 
     // Probe video to get intrinsic size
     const probe = document.createElement('video');
