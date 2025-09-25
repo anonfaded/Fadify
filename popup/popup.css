@@ -718,10 +718,19 @@ a:hover {
 }
 
 .app-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 15px;
   font-weight: 600;
   color: var(--text-primary);
   text-shadow: 0 12px 24px rgba(5, 8, 20, 0.6);
+}
+
+.app-link-indicator {
+  font-size: 10px;
+  color: rgba(190, 202, 255, 0.8);
+  text-shadow: none;
 }
 
 .app-meta {
@@ -934,7 +943,7 @@ a:hover {
 }
 
 .support-note .note-icon {
-  height: 16px;
+  height: 20px;
   object-fit: contain;
   -webkit-user-drag: none;
   -khtml-user-drag: none;
@@ -942,11 +951,13 @@ a:hover {
   -o-user-drag: none;
   user-select: none;
   pointer-events: none;
+  margin-bottom: 3px;
 }
 
-.support-note .fadseclab-icon {
-  height: 29px;
-  margin-bottom: 5px;
+.support-note .fadseclab-icon,
+.support-note .note-icon--love,
+.support-note .note-icon--pakistan {
+  height: 20px;
 }
 
 .support-note .note-text {

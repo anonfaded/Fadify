@@ -143,6 +143,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const nameEl = document.createElement("span");
     nameEl.className = "app-name";
     nameEl.textContent = app?.name ?? "Untitled";
+
+    if (isAvailable) {
+      const linkIndicator = document.createElement("i");
+      linkIndicator.className = "fa-solid fa-external-link-alt app-link-indicator";
+      linkIndicator.setAttribute("aria-hidden", "true");
+      nameEl.appendChild(linkIndicator);
+    }
+
     overlay.appendChild(nameEl);
 
     if (app?.description) {
