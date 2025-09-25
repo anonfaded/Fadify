@@ -35,6 +35,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
   const tabPanels = Array.from(document.querySelectorAll(".tab-panel"));
   const preferences = window.FadifyPreferences;
+  const versionLabel = document.querySelector('[data-extension-version]');
+
+  if (versionLabel) {
+    try {
+      const manifest = api.runtime?.getManifest?.();
+      if (manifest?.version) {
+        versionLabel.textContent = `v${manifest.version}`;
+      } else {
+        versionLabel.textContent = "v1.0";
+      }
+    } catch (error) {
+      console.warn("Fadify: Unable to read manifest version", error);
+      versionLabel.textContent = "v1.0";
+    }
+  }
 
   const findCardByTheme = theme => themeCards.find(card => card.getAttribute("data-theme") === theme);
 
