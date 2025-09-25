@@ -1,14 +1,14 @@
 # Fadify
 
-Fadify is a Firefox extension that adds **live theme customization** to ChatGPT.  
-It’s built with an object-oriented, containerized design — each supported website will live in its own folder for styling, so adding more websites later won’t clutter the codebase.
+Fadify is a Firefox extension that adds **live theme customization** to ChatGPT (and more sites soon).  
+Each supported destination lives inside its own **lab** folder, keeping styles and scripts modular so adding the next website stays tidy.
 
 ---
 
 ## Features
 - 🎨 Live theme switching (applies instantly, no page reload required)  
-- 🗂 Containerized design (each website has its own folder and logic)  
-- 🔮 Currently supports **ChatGPT** (more websites planned)  
+- 🧪 Lab-based architecture (each website has its own folder and logic)  
+- 🔮 Currently supports **ChatGPT** (more labs planned)  
 - ⚡ Simple popup UI to select themes  
 - 🌙 **4 Themes Available**: Default, Dark, Aqua, and **Faded Night** (pitch black)  
 
@@ -24,16 +24,18 @@ fadify/
 │   ├── popup.html
 │   ├── popup.js
 │   └── popup.css
-├── containers/
+├── labs/
 │   └── chatgpt/
-│       └── content.js
+│       ├── ChatGPTContainer.js
+│       ├── chatgpt.css
+│       └── chatgpt.js
 └── README.md
 ```
 
 - `manifest.json` → Extension metadata and permissions  
 - `background.js` → Background logic  
 - `popup/` → Extension UI for selecting themes  
-- `containers/chatgpt/` → All ChatGPT-specific styling and logic  
+- `labs/chatgpt/` → All ChatGPT-specific styling and logic  
 
 ---
 
@@ -60,14 +62,14 @@ fadify/
 ---
 
 ## Future Plans
-- Add more websites with their own containers (`/containers/xyz/`)  
+- Add more websites with their own labs (`/labs/xyz/`)  
 - More advanced theme options (fonts, layouts, animations)  
 - Persist settings so themes remain active across reloads  
 
 ---
 
 ## Contributing
-Pull requests are welcome. Keep new website logic inside its own container folder.
+Pull requests are welcome. Keep new website logic inside its own lab folder.
 
 ---
 

@@ -20,13 +20,13 @@
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <div class="popup-shell" data-active-tab="themes">
+    <div class="popup-shell" data-active-tab="chatgpt">
       <header class="popup-header glass">
         <div class="brand">
           <img src="../assets/fadseclab/fadify.png" alt="Fadify" class="brand-icon" />
           <div class="brand-copy">
             <h1>Fadify</h1>
-            <p>Theme studio for your AI destinations</p>
+            <p>Theme labs for your favorite AI & productivity sites</p>
           </div>
         </div>
         <a class="brand-link" href="https://faded.dev" target="_blank" rel="noopener noreferrer">
@@ -42,56 +42,80 @@
           role="tablist"
           aria-orientation="vertical"
         >
-          <button
-            class="tab-btn active"
-            id="tab-themes"
-            type="button"
-            data-tab="themes"
-            aria-controls="panel-themes"
-            aria-selected="true"
-            tabindex="0"
-          >
-            <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
-            <span>Themes</span>
-          </button>
-          <button
-            class="tab-btn"
-            id="tab-roadmap"
-            type="button"
-            data-tab="roadmap"
-            aria-controls="panel-roadmap"
-            aria-selected="false"
-            tabindex="-1"
-          >
-            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
-            <span>Roadmap</span>
-          </button>
-          <button
-            class="tab-btn"
-            id="tab-apps"
-            type="button"
-            data-tab="apps"
-            aria-controls="panel-apps"
-            aria-selected="false"
-            tabindex="-1"
-          >
-            <i class="fa-solid fa-fire" aria-hidden="true"></i>
-            <span>More apps</span>
-          </button>
+          <div class="tab-cluster tab-cluster--top" role="none">
+            <button
+              class="tab-btn active"
+              id="tab-chatgpt"
+              type="button"
+              data-tab="chatgpt"
+              aria-controls="panel-chatgpt"
+              aria-selected="true"
+              tabindex="0"
+              role="tab"
+              aria-label="ChatGPT lab"
+            >
+              <i class="fa-brands fa-openai" aria-hidden="true"></i>
+              <span class="tab-label" aria-hidden="true">ChatGPT</span>
+            </button>
+            <button
+              class="tab-btn"
+              id="tab-labs"
+              type="button"
+              data-tab="labs"
+              aria-controls="panel-labs"
+              aria-selected="false"
+              tabindex="-1"
+              role="tab"
+              aria-label="Labs directory"
+            >
+              <i class="fa-solid fa-flask" aria-hidden="true"></i>
+              <span class="tab-label" aria-hidden="true">Labs</span>
+            </button>
+          </div>
+          <div class="tab-cluster tab-cluster--bottom" role="none">
+            <button
+              class="tab-btn"
+              id="tab-apps"
+              type="button"
+              data-tab="apps"
+              aria-controls="panel-apps"
+              aria-selected="false"
+              tabindex="-1"
+              role="tab"
+              aria-label="More apps"
+            >
+              <i class="fa-solid fa-fire" aria-hidden="true"></i>
+              <span class="tab-label" aria-hidden="true">Apps</span>
+            </button>
+            <button
+              class="tab-btn"
+              id="tab-about"
+              type="button"
+              data-tab="about"
+              aria-controls="panel-about"
+              aria-selected="false"
+              tabindex="-1"
+              role="tab"
+              aria-label="About Fadify"
+            >
+              <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+              <span class="tab-label" aria-hidden="true">About</span>
+            </button>
+          </div>
         </nav>
 
         <main class="tab-panels">
           <section
             class="tab-panel active"
-            data-tab-panel="themes"
+            data-tab-panel="chatgpt"
             role="tabpanel"
-            id="panel-themes"
-            aria-labelledby="tab-themes"
+            id="panel-chatgpt"
+            aria-labelledby="tab-chatgpt"
           >
             <div class="card glass theme-card-wrapper">
               <div class="section-heading">
-                <h2>Choose your vibe</h2>
-                <p>Tap a card to apply instantly.</p>
+                <h2>ChatGPT Lab</h2>
+                <p>Switch looks instantly while we prep more labs.</p>
               </div>
               <div class="theme-grid">
                 <button
@@ -145,50 +169,56 @@
 
           <section
             class="tab-panel"
-            data-tab-panel="roadmap"
+            data-tab-panel="labs"
             role="tabpanel"
-            id="panel-roadmap"
-            aria-labelledby="tab-roadmap"
+            id="panel-labs"
+            aria-labelledby="tab-labs"
             hidden
           >
-            <div class="card glass about-card">
+            <div class="card glass labs-card">
               <div class="section-heading">
-                <h2>Roadmap</h2>
-                <p class="card-lead">We&apos;re expanding beyond ChatGPT into your favorite AI and productivity sites.</p>
+                <h2>Labs directory</h2>
+                <p class="card-lead">Every supported site lives in its own lab. Pick one to explore, or see what&apos;s coming next.</p>
               </div>
-              <ul class="feature-list">
-                <li>
-                  <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
-                  <div>
-                    <span class="feature-title">Site containers</span>
-                    <span class="feature-meta">Modular integrations keep each experience focused.</span>
+              <div class="lab-grid">
+                <article class="lab-card is-live">
+                  <div class="lab-header">
+                    <i class="fa-brands fa-openai" aria-hidden="true"></i>
+                    <div>
+                      <h3>ChatGPT</h3>
+                      <p>Live themes with glassmorphism presets.</p>
+                    </div>
                   </div>
-                </li>
-                <li>
-                  <i class="fa-solid fa-palette" aria-hidden="true"></i>
-                  <div>
-                    <span class="feature-title">Custom palettes</span>
-                    <span class="feature-meta">Per-site controls to match your vibe everywhere.</span>
+                  <span class="lab-status">Live</span>
+                </article>
+                <article class="lab-card is-soon">
+                  <div class="lab-header">
+                    <i class="fa-solid fa-brain" aria-hidden="true"></i>
+                    <div>
+                      <h3>Claude</h3>
+                      <p>Anthropic&apos;s workspace with adaptive dark glass.</p>
+                    </div>
                   </div>
-                </li>
-                <li>
-                  <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
-                  <div>
-                    <span class="feature-title">Saved presets</span>
-                    <span class="feature-meta">Sync looks across browsers and devices.</span>
+                  <span class="lab-status">In design</span>
+                </article>
+                <article class="lab-card is-soon">
+                  <div class="lab-header">
+                    <i class="fa-solid fa-square-pen" aria-hidden="true"></i>
+                    <div>
+                      <h3>Notion AI</h3>
+                      <p>Workspace palettes that sync with docs & databases.</p>
+                    </div>
                   </div>
-                </li>
-              </ul>
-            </div>
-            <div class="card glass about-card">
-              <div class="section-heading">
-                <h2>Need something?</h2>
-                <p class="card-lead">Drop suggestions or collab ideas — Fadify thrives on community sparks.</p>
+                  <span class="lab-status">Planned</span>
+                </article>
               </div>
-              <a class="contact-link" href="mailto:hello@fadify.dev">
-                <i class="fa-solid fa-envelope"></i>
-                <span>hello@fadify.dev</span>
-              </a>
+              <div class="labs-footer">
+                <p>Want to help prioritize the next lab?</p>
+                <a class="contact-link" href="https://discord.gg/kvAZvdkuuN" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-brands fa-discord" aria-hidden="true"></i>
+                  <span>Drop your vote on Discord</span>
+                </a>
+              </div>
             </div>
           </section>
 
@@ -263,6 +293,40 @@
                   </a>
                 </div>
               </div>
+            </div>
+          </section>
+
+          <section
+            class="tab-panel"
+            data-tab-panel="about"
+            role="tabpanel"
+            id="panel-about"
+            aria-labelledby="tab-about"
+            hidden
+          >
+            <div class="card glass about-card">
+              <div class="section-heading">
+                <h2>About Fadify</h2>
+                <p class="card-lead">Fadify is a modular lab system for styling AI and productivity tools without hacks.</p>
+              </div>
+              <ul class="about-list">
+                <li>
+                  <span class="about-label">What it does</span>
+                  <span class="about-value">Instant theme swaps, tuned per site with lab folders.</span>
+                </li>
+                <li>
+                  <span class="about-label">Maintained by</span>
+                  <span class="about-value">Faded — indie builder at <a href="https://faded.dev" target="_blank" rel="noopener noreferrer">faded.dev</a></span>
+                </li>
+                <li>
+                  <span class="about-label">Join the lab</span>
+                  <span class="about-value"><a href="https://discord.gg/kvAZvdkuuN" target="_blank" rel="noopener noreferrer">Discord community</a> for previews & requests.</span>
+                </li>
+                <li>
+                  <span class="about-label">Support</span>
+                  <span class="about-value"><a href="https://ko-fi.com/D1D510FNSV" target="_blank" rel="noopener noreferrer">Ko-fi</a> keeps the servers glowing.</span>
+                </li>
+              </ul>
             </div>
           </section>
         </main>

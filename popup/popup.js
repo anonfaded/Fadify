@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = tabButtons[normalized];
     target.focus();
     activateTab(target.dataset.tab);
-    if (target.dataset.tab !== "themes") {
+    if (target.dataset.tab !== "chatgpt") {
       const focusTarget = document.querySelector(
         `.tab-panel[data-tab-panel="${target.dataset.tab}"] h2, .tab-panel[data-tab-panel="${target.dataset.tab}"] h3`
       );
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  activateTab(shell?.dataset.activeTab || "themes");
+  activateTab(shell?.dataset.activeTab || "chatgpt");
 
   tabButtons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       activateTab(tabName);
 
-      if (tabName !== "themes") {
+      if (tabName !== "chatgpt") {
         const focusTarget = document.querySelector(
           `.tab-panel[data-tab-panel="${tabName}"] h2, .tab-panel[data-tab-panel="${tabName}"] h3`
         );

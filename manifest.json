@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Fadify",
   "version": "1.0",
-  "description": "Custom themes for ChatGPT",
+  "description": "Theme labs for ChatGPT and more sites to come",
   "permissions": ["tabs", "activeTab"],
   "icons": {
     "16": "assets/fadseclab/fadify.png",
@@ -27,8 +27,8 @@
   "content_scripts": [
     {
       "matches": ["*://chat.openai.com/*", "*://chatgpt.com/*"],
-      "js": ["containers/chatgpt/ChatGPTContainer.js", "containers/chatgpt/chatgpt.js"],
-      "css": ["containers/chatgpt/chatgpt.css"]
+      "js": ["labs/chatgpt/ChatGPTContainer.js", "labs/chatgpt/chatgpt.js"],
+      "css": ["labs/chatgpt/chatgpt.css"]
     }
   ],
   "web_accessible_resources": [
