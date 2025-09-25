@@ -248,11 +248,23 @@ class ChatGPTContainer {
       .fadify-space-glass,
       div.shadow-short {
         background: rgba(5, 5, 5, 0.76) !important;
-        background-image: none !important;
         -webkit-backdrop-filter: blur(22px) saturate(120%) !important;
         backdrop-filter: blur(22px) saturate(120%) !important;
         border: 1px solid rgba(0, 0, 0, 0.55) !important;
         box-shadow: 0 20px 46px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+      }
+
+      /* User chat bubbles - add subtle crimson gradient border for differentiation */
+      .fadify-space-glass.user-message-bubble-color,
+      [data-message-author-role="user"] .fadify-space-glass {
+        border: 1px solid transparent !important;
+        border-radius: 18px !important;
+        background: linear-gradient(rgba(5, 5, 5, 0.76), rgba(5, 5, 5, 0.76)) padding-box,
+                    linear-gradient(135deg, rgba(140, 0, 0, 0.92), rgba(0, 0, 0, 0.9)) border-box !important;
+        background-clip: padding-box, border-box !important;
+        box-shadow: 0 20px 46px rgba(0, 0, 0, 0.55),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                    0 0 12px rgba(180, 16, 48, 0.2) !important;
       }
 
       /* Text coloring from Faded Night */
