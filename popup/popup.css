@@ -80,21 +80,22 @@ a:hover {
 }
 
 .popup-header {
-  height: 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
+  padding: 12px 20px;
   border-bottom: 1px solid rgba(120, 136, 220, 0.18);
   /* round only bottom corners */
   border-radius: 0 0 16px 16px;
   flex-shrink: 0;
+  min-height: 64px;
+  column-gap: 20px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 
 .brand-icon {
@@ -112,15 +113,15 @@ a:hover {
 
 .brand-copy p {
   margin: 2px 0 0;
-  font-size: 10px;
-  line-height: 1.3;
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .brand-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 8px;
+  padding: 7px 14px;
   border-radius: 10px;
   background: rgba(20, 28, 52, 0.75);
   color: var(--text-primary);
@@ -790,8 +791,9 @@ a:hover {
 
 @keyframes coffeeShake {
   0%, 50%, 100% { transform: rotate(0deg); }
-  10%, 30% { transform: rotate(-3deg); }
-  20%, 40% { transform: rotate(3deg); }
+  8%, 28% { transform: rotate(-9deg); }
+  18%, 38% { transform: rotate(11deg); }
+  45% { transform: rotate(-6deg); }
 }
 
 .support-btn.discord {
