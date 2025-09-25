@@ -4,7 +4,19 @@
   "version": "1.0",
   "description": "Custom themes for ChatGPT",
   "permissions": ["tabs", "activeTab"],
+  "icons": {
+    "16": "assets/fadseclab/fadify.png",
+    "32": "assets/fadseclab/fadify.png",
+    "48": "assets/fadseclab/fadify.png",
+    "128": "assets/fadseclab/fadify.png"
+  },
   "browser_action": {
+    "default_icon": {
+      "16": "assets/fadseclab/fadify.png",
+      "32": "assets/fadseclab/fadify.png",
+      "48": "assets/fadseclab/fadify.png",
+      "128": "assets/fadseclab/fadify.png"
+    },
     "default_popup": "popup/popup.html",
     "default_title": "Fadify"
   },

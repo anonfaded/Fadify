@@ -1,24 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Fadify</title>
-  <link rel="stylesheet" href="popup.css" />
-</head>
-<body>
-  <h2>Fadify Settings</h2>
-  <div class="themes">
-    <div class="theme-card" data-theme="default">
-      <span>Default</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fadify</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-sVYNkAyW4Z1cdqUPVHtV6nRvWmvMRGsiE9zraFMvx6bMpiKFFitvolG/GpNZgbf+5Q5e0MyoYwZ0p3N3Ss+F1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="popup-shell" data-active-tab="themes">
+      <header class="popup-header glass">
+        <div class="brand">
+          <img src="../assets/fadseclab/fadify.png" alt="Fadify" class="brand-icon" />
+          <div class="brand-copy">
+            <h1>Fadify</h1>
+            <p>Theme studio for your AI destinations</p>
+          </div>
+        </div>
+        <a class="brand-link" href="https://faded.dev" target="_blank" rel="noopener noreferrer">
+          <i class="fa-solid fa-globe" aria-hidden="true"></i>
+          <span>faded.dev</span>
+        </a>
+      </header>
+
+      <nav class="tab-strip glass" aria-label="Fadify sections" role="tablist">
+        <button
+          class="tab-btn active"
+          id="tab-themes"
+          type="button"
+          data-tab="themes"
+          aria-controls="panel-themes"
+          aria-selected="true"
+          tabindex="0"
+        >
+          <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+          <span>Themes</span>
+        </button>
+        <button
+          class="tab-btn"
+          id="tab-roadmap"
+          type="button"
+          data-tab="roadmap"
+          aria-controls="panel-roadmap"
+          aria-selected="false"
+          tabindex="-1"
+        >
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          <span>Roadmap</span>
+        </button>
+        <button
+          class="tab-btn"
+          id="tab-apps"
+          type="button"
+          data-tab="apps"
+          aria-controls="panel-apps"
+          aria-selected="false"
+          tabindex="-1"
+        >
+          <i class="fa-solid fa-fire" aria-hidden="true"></i>
+          <span>More apps</span>
+        </button>
+      </nav>
+
+      <main class="tab-panels">
+        <section
+          class="tab-panel active"
+          data-tab-panel="themes"
+          role="tabpanel"
+          id="panel-themes"
+          aria-labelledby="tab-themes"
+        >
+          <div class="card glass theme-card-wrapper">
+            <div class="section-heading">
+              <h2>Choose your vibe</h2>
+              <p>Tap a card to apply instantly.</p>
+            </div>
+            <div class="theme-grid">
+              <button
+                class="theme-card"
+                type="button"
+                data-theme="default"
+                style="--preview-url: url('../assets/chatgpt/default.png');"
+                aria-pressed="false"
+              >
+                <div class="theme-overlay">
+                  <span class="theme-name">Default</span>
+                  <span class="theme-meta">Classic ChatGPT palette</span>
+                </div>
+                <span class="theme-state" aria-hidden="true">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              </button>
+              <button
+                class="theme-card"
+                type="button"
+                data-theme="faded-night"
+                style="--preview-url: url('../assets/chatgpt/fadednight.png');"
+                aria-pressed="false"
+              >
+                <div class="theme-overlay">
+                  <span class="theme-name">Faded Night</span>
+                  <span class="theme-meta">Pitch-black glass aesthetic</span>
+                </div>
+                <span class="theme-state" aria-hidden="true">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              </button>
+              <button
+                class="theme-card"
+                type="button"
+                data-theme="space"
+                style="--preview-url: url('../assets/chatgpt/space.png');"
+                aria-pressed="false"
+              >
+                <div class="theme-overlay">
+                  <span class="theme-name">Space</span>
+                  <span class="theme-meta">Cosmic neon glow</span>
+                </div>
+                <span class="theme-state" aria-hidden="true">
+                  <i class="fa-solid fa-check"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="tab-panel"
+          data-tab-panel="roadmap"
+          role="tabpanel"
+          id="panel-roadmap"
+          aria-labelledby="tab-roadmap"
+          hidden
+        >
+          <div class="card glass about-card">
+            <div class="section-heading">
+              <h2>Roadmap</h2>
+              <p class="card-lead">We&apos;re expanding beyond ChatGPT into your favorite AI and productivity sites.</p>
+            </div>
+            <ul class="feature-list">
+              <li>
+                <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+                <div>
+                  <span class="feature-title">Site containers</span>
+                  <span class="feature-meta">Modular integrations keep each experience focused.</span>
+                </div>
+              </li>
+              <li>
+                <i class="fa-solid fa-palette" aria-hidden="true"></i>
+                <div>
+                  <span class="feature-title">Custom palettes</span>
+                  <span class="feature-meta">Per-site controls to match your vibe everywhere.</span>
+                </div>
+              </li>
+              <li>
+                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+                <div>
+                  <span class="feature-title">Saved presets</span>
+                  <span class="feature-meta">Sync looks across browsers and devices.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="card glass about-card">
+            <div class="section-heading">
+              <h2>Need something?</h2>
+              <p class="card-lead">Drop suggestions or collab ideas — Fadify thrives on community sparks.</p>
+            </div>
+            <a class="contact-link" href="mailto:hello@fadify.dev">
+              <i class="fa-solid fa-envelope"></i>
+              <span>hello@fadify.dev</span>
+            </a>
+          </div>
+        </section>
+
+        <section
+          class="tab-panel"
+          data-tab-panel="apps"
+          role="tabpanel"
+          id="panel-apps"
+          aria-labelledby="tab-apps"
+          hidden
+        >
+          <div class="card glass apps-card">
+            <div class="section-heading">
+              <h2>Discover more</h2>
+              <p>Try the other experiments from FadSec Lab.</p>
+            </div>
+            <div class="app-category">
+              <h3>Android</h3>
+              <div class="app-grid">
+                <a
+                  class="app-card"
+                  href="https://github.com/anonfaded/HaramBlur"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style="--app-preview: url('../assets/fadseclab/love.png');"
+                >
+                  <div class="app-overlay">
+                    <span class="app-name">HaramBlur</span>
+                    <span class="app-meta">Blur what matters instantly.</span>
+                  </div>
+                </a>
+                <a
+                  class="app-card"
+                  href="https://github.com/anonfaded/FocusFlow"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style="--app-preview: url('../assets/fadseclab/love.png');"
+                >
+                  <div class="app-overlay">
+                    <span class="app-name">FocusFlow</span>
+                    <span class="app-meta">Stay distraction free on the go.</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div class="app-category">
+              <h3>Desktop</h3>
+              <div class="app-grid">
+                <a
+                  class="app-card"
+                  href="https://github.com/anonfaded/Fadify"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style="--app-preview: url('../assets/fadseclab/love.png');"
+                >
+                  <div class="app-overlay">
+                    <span class="app-name">Fadify</span>
+                    <span class="app-meta">Level up ChatGPT with live themes.</span>
+                  </div>
+                </a>
+                <a
+                  class="app-card"
+                  href="https://github.com/anonfaded/DeskGlow"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style="--app-preview: url('../assets/fadseclab/love.png');"
+                >
+                  <div class="app-overlay">
+                    <span class="app-name">DeskGlow</span>
+                    <span class="app-meta">Ambient vibes for your workspace.</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="glass support">
+        <div class="support-actions">
+          <a
+            class="support-btn kofi"
+            href="https://ko-fi.com/D1D510FNSV"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fa-solid fa-mug-saucer" aria-hidden="true"></i>
+            <span>Buy me a coffee</span>
+          </a>
+          <a
+            class="support-btn github"
+            href="https://github.com/anonfaded/Fadify"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fa-brands fa-github" aria-hidden="true"></i>
+            <span>Star on GitHub</span>
+          </a>
+          <a
+            class="support-btn discord"
+            href="https://discord.gg/kvAZvdkuuN"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fa-brands fa-discord" aria-hidden="true"></i>
+            <span>Join our Discord</span>
+          </a>
+        </div>
+        <div class="support-note">
+          <span class="note-text">Made with</span>
+          <img src="../assets/fadseclab/love.png" alt="Love" class="note-icon" />
+          <span class="note-text">at</span>
+          <img src="../assets/fadseclab/fadseclab_flag.png" alt="FadSec Lab" class="note-icon" />
+          <span class="note-text">in</span>
+          <img src="../assets/fadseclab/pakistan.png" alt="Pakistan" class="note-icon" />
+        </div>
+      </footer>
     </div>
-    <div class="theme-card" data-theme="faded-night">
-      <img src="../assets/faded_night_preview.png" alt="Faded Night" />
-      <span>Faded Night</span>
-    </div>
-    <div class="theme-card" data-theme="space">
-      <span>Space</span>
-    </div>
-  </div>
-  <script src="popup.js"></script>
-</body>
+    <script src="popup.js"></script>
+  </body>
 </html>
