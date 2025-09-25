@@ -3,7 +3,7 @@
   "name": "Fadify",
   "version": "1.0",
   "description": "Theme labs for ChatGPT and more sites to come",
-  "permissions": ["tabs", "activeTab"],
+  "permissions": ["tabs", "activeTab", "storage"],
   "content_security_policy": "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; script-src 'self'",
   "icons": {
     "16": "assets/fadseclab/fadify.png",
@@ -28,7 +28,7 @@
   "content_scripts": [
     {
       "matches": ["*://chat.openai.com/*", "*://chatgpt.com/*"],
-      "js": ["labs/chatgpt/ChatGPTContainer.js", "labs/chatgpt/chatgpt.js"],
+  "js": ["utils/preferences.js", "labs/chatgpt/ChatGPTContainer.js", "labs/chatgpt/chatgpt.js"],
       "css": ["labs/chatgpt/chatgpt.css"]
     }
   ],

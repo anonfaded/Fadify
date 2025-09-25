@@ -34,6 +34,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeCards = Array.from(document.querySelectorAll(".theme-card"));
   const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
   const tabPanels = Array.from(document.querySelectorAll(".tab-panel"));
+  const preferences = window.FadifyPreferences;
+
+  const findCardByTheme = theme => themeCards.find(card => card.getAttribute("data-theme") === theme);
+
+  const applyThemeSelection = theme => {
+    if (!themeCards.length) return null;
+    const targetCard = findCardByTheme(theme) || themeCards[0];
+    if (targetCard) {
+      setActiveThemeCard(targetCard, themeCards);
+      return targetCard.getAttribute("data-theme");
+    }
+    return null;
+  };
+
+  const sendThemeToActiveTab = theme => {
+    if (!theme) return;
+    queryActiveTab()
+      .then(([tab]) => {
+        if (!tab || !tab.id) return;
+        api.tabs.sendMessage(tab.id, { action: "applyTheme", theme });
+      })
+      .catch(error => {
+        console.warn("Fadify: Unable to message tab", error);
+      });
+  };
 
   const activateTab = tabName => {
     if (!shell) return;
@@ -69,6 +94,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
   activateTab(shell?.dataset.activeTab || "chatgpt");
 
+  if (preferences) {
+    preferences
+      .load()
+      .then(settings => {
+        const storedTheme = settings?.labs?.chatgpt?.activeTheme;
+        const resolvedTheme = applyThemeSelection(storedTheme);
+        if (resolvedTheme) {
+          sendThemeToActiveTab(resolvedTheme);
+        }
+      })
+      .catch(error => {
+        console.warn("FadifyPreferences: load failed", error);
+        const resolvedTheme = applyThemeSelection();
+        if (resolvedTheme) {
+          sendThemeToActiveTab(resolvedTheme);
+        }
+      });
+
+    preferences.subscribe(nextSettings => {
+      const storedTheme = nextSettings?.labs?.chatgpt?.activeTheme;
+      if (!storedTheme) return;
+      const activeCard = findCardByTheme(storedTheme);
+      if (activeCard && !activeCard.classList.contains("active")) {
+        setActiveThemeCard(activeCard, themeCards);
+        sendThemeToActiveTab(storedTheme);
+      }
+    });
+  } else {
+    const resolvedTheme = applyThemeSelection();
+    if (resolvedTheme) {
+      sendThemeToActiveTab(resolvedTheme);
+    }
+  }
+
   tabButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       const tabName = btn.dataset.tab;
@@ -102,14 +161,20 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Theme selected:", theme);
       setActiveThemeCard(card, themeCards);
 
-      queryActiveTab()
-        .then(([tab]) => {
-          if (!tab || !tab.id) return;
-          api.tabs.sendMessage(tab.id, { action: "applyTheme", theme });
-        })
-        .catch(error => {
-          console.warn("Fadify: Unable to message tab", error);
-        });
+      if (preferences) {
+        preferences
+          .update(settings => {
+            settings.labs = settings.labs || {};
+            settings.labs.chatgpt = settings.labs.chatgpt || {};
+            settings.labs.chatgpt.activeTheme = theme;
+            return settings;
+          })
+          .catch(error => {
+            console.warn("FadifyPreferences: update failed", error);
+          });
+      }
+
+      sendThemeToActiveTab(theme);
     });
   });
 });
