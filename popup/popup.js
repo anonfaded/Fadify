@@ -85,10 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btn.addEventListener("keydown", event => {
-      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+      if (["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(event.key)) {
         event.preventDefault();
         const currentIndex = tabButtons.indexOf(btn);
-        const delta = event.key === "ArrowRight" ? 1 : -1;
+        const delta = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1 : -1;
         focusTabAt(currentIndex + delta);
       }
     });
