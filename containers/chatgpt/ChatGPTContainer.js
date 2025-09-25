@@ -160,6 +160,15 @@ class ChatGPTContainer {
 
   removeCustomStyles() {
     console.log("Fadify: Removing all custom styles.");
+    if (this._spaceSidebarObserver) {
+      this._spaceSidebarObserver.disconnect();
+      this._spaceSidebarObserver = null;
+    }
+
+    document.querySelectorAll('.fadify-space-glass').forEach(el => {
+      el.classList.remove('fadify-space-glass');
+    });
+
     ['fadify-faded-night-styles', 'fadify-space-styles'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.remove();
@@ -235,54 +244,15 @@ class ChatGPTContainer {
         background: none !important;
       }
 
-      /* Sidebar panel when opened (inside the slideover) */
-      div[class*="w-[var(--sidebar-width)]"][class*="bg-token-bg-elevated-secondary"],
-      aside[class*="w-[var(--sidebar-width)]"][class*="bg-token-bg-elevated-secondary"] {
-        background-color: transparent !important;
-        color: #ffffff !important;
-      }
-
-      /* Sidebar inner sections that use elevated bg token */
-      #stage-slideover-sidebar .bg-token-bg-elevated-secondary,
-      #stage-slideover-sidebar [class*="bg-token-bg-elevated-secondary"] {
-        background-color: transparent !important;
-      }
-
-      /* Sidebar header bar */
-      #sidebar-header,
-      #stage-slideover-sidebar #sidebar-header {
-        background-color: transparent !important;
-        color: #ffffff !important;
-      }
-
-      /* Sidebar (slideover) and tiny rail */
-      #stage-slideover-sidebar {
-        background-color: transparent !important;
-        border-color: transparent !important;
-      }
-
-      #stage-sidebar-tiny-bar {
-        background-color: transparent !important;
-      }
-
-      /* Fallback by class in case IDs change but class remains */
-      .group\/tiny-bar.flex.h-full[class*="sidebar-rail-width"] {
-        background-color: transparent !important;
-      }
-
-      /*
-        Applies a darker, seamless glass panel while keeping the space backdrop visible.
-      */
+      /* Shared glass surface styling reused across composer and sidebar */
+      .fadify-space-glass,
       div.shadow-short {
-        background: rgba(12, 12, 12, 0.42) !important;
-        background-image:
-          radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.08), transparent 55%),
-          radial-gradient(circle at 85% 85%, rgba(0, 0, 0, 0.45), transparent 60%);
-        background-blend-mode: screen, normal;
-        -webkit-backdrop-filter: blur(22px) saturate(140%) !important;
-        backdrop-filter: blur(22px) saturate(140%) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5) !important;
+        background: rgba(5, 5, 5, 0.76) !important;
+        background-image: none !important;
+        -webkit-backdrop-filter: blur(22px) saturate(120%) !important;
+        backdrop-filter: blur(22px) saturate(120%) !important;
+        border: 1px solid rgba(0, 0, 0, 0.55) !important;
+        box-shadow: 0 20px 46px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
       }
 
       /* Text coloring from Faded Night */
@@ -338,6 +308,40 @@ class ChatGPTContainer {
       .markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 { color: #e4e4e4 !important; }
       .ProseMirror .placeholder { color: #8a8a8a !important; }
     `;
+
+    const glassSelectors = [
+      'div.shadow-short',
+      '#stage-slideover-sidebar',
+      '#stage-slideover-sidebar nav',
+      '#stage-slideover-sidebar section',
+      '#stage-slideover-sidebar [class*="bg-token-"]',
+      '[data-testid="left-sidebar"]',
+      '[data-testid="left-sidebar"] nav',
+      '[data-testid="left-sidebar"] section',
+      '[data-testid="left-sidebar"] [class*="bg-token-"]',
+      '#stage-sidebar-tiny-bar',
+      '[class*="sidebar-rail-width"]'
+    ];
+
+    const applyGlassClasses = () => {
+      glassSelectors.forEach(selector => {
+        document.querySelectorAll(selector).forEach(el => {
+          if (!el.classList.contains('fadify-space-glass')) {
+            el.classList.add('fadify-space-glass');
+          }
+        });
+      });
+    };
+
+    applyGlassClasses();
+
+    if (this._spaceSidebarObserver) {
+      this._spaceSidebarObserver.disconnect();
+    }
+    this._spaceSidebarObserver = new MutationObserver(() => {
+      applyGlassClasses();
+    });
+    this._spaceSidebarObserver.observe(document.body, { childList: true, subtree: true });
 
     // 2) Add tiled video background
     const api = typeof browser !== 'undefined' ? browser : chrome;
