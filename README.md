@@ -74,4 +74,4 @@ Pull requests are welcome. Keep new website logic inside its own lab folder.
 ---
 
 ## License
-MIT
+GNU General Public License v3.0
