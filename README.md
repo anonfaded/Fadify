@@ -195,7 +195,7 @@ This project is licensed under the **GNU General Public License v3.0** - see the
 
 <div align="center">
 
-**Made with ❤️ by [FadSecLab](https://github.com/anonfaded)**
+**Made with ❤️ by [FadSec Lab](https://github.com/anonfaded)**
 
 [![GitHub](https://img.shields.io/badge/GitHub-anonfaded-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/anonfaded)
 [![Extension](https://img.shields.io/badge/Firefox-Fadify-FF7139?style=flat-square&logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/fadify/)
