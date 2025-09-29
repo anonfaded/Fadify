@@ -12,6 +12,19 @@
 
 **Fadify** is a powerful Firefox extension that transforms your web experience with **true dark aesthetics** and modern utilities. Works on both **desktop and mobile Firefox**.
 
+### 📹 Demo
+
+<div align="center">
+
+<video width="600" controls>
+  <source src="assets/promo-screenshots/fadify-demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+*See Fadify in action with live theme switching*
+
+</div>
+
 </div>
 
 ---
